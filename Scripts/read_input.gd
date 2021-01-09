@@ -28,8 +28,8 @@ func find_new_enemy(typed_char: String):
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
-		var typed_event = event as InputEventKey
-		var key_typed = PoolByteArray([typed_event.unicode]).get_string_from_utf8()
+		var type_event = event as InputEventKey
+		var key_typed = char(type_event.scancode).to_lower()
 		if active_enemy == null:
 			find_new_enemy(key_typed)
 		else:
