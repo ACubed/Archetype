@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Images/backdrop.png" type="Texture" id=1]
+[ext_resource path="res://Images/sample_bg.png" type="Texture" id=1]
 [ext_resource path="res://Images/archer.png" type="Texture" id=2]
-[ext_resource path="res://Images/enemy.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/read_input.gd" type="Script" id=4]
-[ext_resource path="res://Scripts/enemy.gd" type="Script" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -14,46 +12,60 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 3 ) ],
-"loop": true,
-"name": "default",
-"speed": 5.0
-} ]
-
 [node name="World" type="Node2D"]
 script = ExtResource( 4 )
 
 [node name="camera" type="Camera2D" parent="."]
+position = Vector2( -2.84108, -6.34232 )
 anchor_mode = 0
 current = true
 
-[node name="backdrop" type="Sprite" parent="camera"]
-visible = false
-position = Vector2( 319.729, 180.216 )
-scale = Vector2( 2.356, 2.24755 )
+[node name="sample_bg" type="Sprite" parent="camera"]
+position = Vector2( 483.425, 269.636 )
+scale = Vector2( 1.98656, 2.00429 )
 texture = ExtResource( 1 )
 
 [node name="archer" type="AnimatedSprite" parent="."]
-position = Vector2( 319.826, 292.29 )
+position = Vector2( 511.57, 398.236 )
 frames = SubResource( 1 )
 animation = "movement"
 
-[node name="enemy" type="AnimatedSprite" parent="."]
-position = Vector2( 509.744, 209.513 )
-frames = SubResource( 2 )
-script = ExtResource( 5 )
+[node name="enemy_right_spawns" type="Node" parent="."]
 
-[node name="target" type="RichTextLabel" parent="enemy"]
-anchor_top = 0.00496447
-anchor_bottom = 0.00496447
-margin_left = -48.2944
-margin_top = -48.718
-margin_right = 54.7056
-margin_bottom = -33.718
-bbcode_text = "wwwwwwwwww"
-text = "wwwwwwwwww"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="right_1_spawn" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 926.388, 328.592 )
+
+[node name="right_2_spawn" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 929.275, 364.819 )
+
+[node name="right_3_spawn" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 930.974, 406.27 )
+
+[node name="right_4_spawn" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 935.047, 451.793 )
+
+[node name="right_5_spawn" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 933.873, 494.407 )
+
+[node name="enemy_left_spawns" type="Node" parent="."]
+
+[node name="left_1_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 24.9884, 331.896 )
+
+[node name="left_2_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 27.8746, 368.595 )
+
+[node name="left_3_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 29.5743, 409.573 )
+
+[node name="left_4_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 33.6473, 455.097 )
+
+[node name="left_5_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 32.4725, 497.711 )
+
+[node name="enemies" type="Node" parent="."]
+
+[node name="spawn_timer" type="Timer" parent="."]
+wait_time = 5.0
+[connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
