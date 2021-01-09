@@ -777,7 +777,18 @@ position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 109 )
 animation = "Run"
-frame = 3
+frame = 6
 playing = true
+
+[node name="round_label" type="RichTextLabel" parent="."]
+margin_left = 11.0
+margin_top = 6.0
+margin_right = 179.0
+margin_bottom = 42.0
+text = "ROUND 1
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]

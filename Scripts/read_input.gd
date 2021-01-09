@@ -18,6 +18,7 @@ onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var health_label = $health as RichTextLabel
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
+onready var round_counter = $round_label
 
 var last_index_spawned = -1
 var typed_buffer = ""
@@ -50,8 +51,9 @@ func _process(delta):
 			health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
-	print("Starting wave ",current_wave)
+	print("Starting wave ", current_wave)
 	spawn_timer.start()
+	round_counter.parse_bbcode(set_center_tags("Round %d" % current_wave))
 
 func stop_wave():
 	print("wave ", current_wave, " has been cleared!")
@@ -159,3 +161,6 @@ func spawn_enemy():
 
 func _on_archer_sprite_animation_finished():
 	pass
+
+func set_center_tags(string: String):
+	return "[center]" + string + "[/center]"
