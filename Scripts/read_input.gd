@@ -1,8 +1,12 @@
 extends Node2D
 
+const SPAWN_POINTS = 5
+
 var Enemy = preload("res://Scenes/enemy.tscn")
+
 onready var enemies = $enemies
-onready var spawn_points = $enemy_spawn_container
+onready var r_spawn_points = $enemy_right_spawns
+onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
 
 var curr_letter_index: int = -1
@@ -22,7 +26,17 @@ func _on_spawn_timer_timeout() -> void:
 
 func spawn_enemy():
 	var enemy_instance = Enemy.instance()
-	var spawns = spawn_points.get_children()
-	var index = randi() % spawns.size()
+	var randInt = randi()
+	var spawns = r_spawn_points.get_children()
+	var direction = -1
+	
+	if randInt % 2 == 0:
+		# insert into left
+		spawns = l_spawn_points.get_children()
+		direction = 1
+		
+	var index = randInt % spawns.size()
+
+	enemy_instance.init(direction)
 	enemies.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position

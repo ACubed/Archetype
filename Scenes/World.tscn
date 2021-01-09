@@ -26,26 +26,43 @@ scale = Vector2( 1.98656, 2.00429 )
 texture = ExtResource( 1 )
 
 [node name="archer" type="AnimatedSprite" parent="."]
-position = Vector2( 505.435, 340.187 )
+position = Vector2( 511.57, 398.236 )
 frames = SubResource( 1 )
 animation = "movement"
 
-[node name="enemy_spawn_container" type="Node" parent="."]
+[node name="enemy_right_spawns" type="Node" parent="."]
 
-[node name="right_1_spawn" type="Position2D" parent="enemy_spawn_container"]
+[node name="right_1_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 926.388, 328.592 )
 
-[node name="right_2_spawn" type="Position2D" parent="enemy_spawn_container"]
+[node name="right_2_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 929.275, 364.819 )
 
-[node name="right_3_spawn" type="Position2D" parent="enemy_spawn_container"]
+[node name="right_3_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 930.974, 406.27 )
 
-[node name="right_4_spawn" type="Position2D" parent="enemy_spawn_container"]
+[node name="right_4_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 935.047, 451.793 )
 
-[node name="right_5_spawn" type="Position2D" parent="enemy_spawn_container"]
+[node name="right_5_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 933.873, 494.407 )
+
+[node name="enemy_left_spawns" type="Node" parent="."]
+
+[node name="left_1_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 24.9884, 331.896 )
+
+[node name="left_2_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 27.8746, 368.595 )
+
+[node name="left_3_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 29.5743, 409.573 )
+
+[node name="left_4_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 33.6473, 455.097 )
+
+[node name="left_5_spawn" type="Position2D" parent="enemy_left_spawns"]
+position = Vector2( 32.4725, 497.711 )
 
 [node name="enemies" type="Node" parent="."]
 
