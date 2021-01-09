@@ -23,7 +23,7 @@ var enemy_speed = .75
 var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 0.25
-var spawn_rate_max = 4.0
+var spawn_rate_max = 4.0 
 
 func _ready() -> void:
 	randomize()
@@ -113,11 +113,6 @@ func spawn_enemy():
 	var randInt = randi()
 	var spawns = r_spawn_points.get_children()
 	var direction = -1
-	
-	if randInt % 2 == 0:
-		# insert into left
-		spawns = l_spawn_points.get_children()
-		direction = 1
 		
 	var index = randInt % spawns.size()
 
