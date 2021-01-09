@@ -10,11 +10,13 @@ onready var buffer_label = $buffer as RichTextLabel
 
 var typed_buffer = ""
 var active_words = []
+var alpha_regex = RegEx.new()
 
 func _ready() -> void:
 	randomize()
 	spawn_enemy()
 	spawn_timer.start()
+	alpha_regex.compile("[a-z]")
 	
 func checkWords():
 	for enemy in enemies.get_children():
@@ -36,9 +38,12 @@ func _unhandled_input(event: InputEvent) -> void:
 			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
 			buffer_label.text = typed_buffer
 		else:
-			typed_buffer += char(type_event.scancode).to_lower()
-			buffer_label.text = typed_buffer
-			checkWords()
+			var typed_char = char(type_event.scancode).to_lower()
+			if alpha_regex.search(typed_char):
+				typed_buffer += typed_char
+				buffer_label.text = typed_buffer
+				checkWords()
+			
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
