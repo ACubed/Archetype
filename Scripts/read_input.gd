@@ -65,14 +65,14 @@ func increase_difficulty():
 		enemy_speed += 0.25
 		if 1.5 < spawn_rate_max:
 			spawn_rate_max -= .5
-	
-	if current_wave % 6 == 0: 
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
 	
-	if current_wave % 10 == 0:
+	if current_wave % 6 == 0: 
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
+	
+	if current_wave % 10 == 0:
 		current_wave_size += 15
 
 func check_words():
