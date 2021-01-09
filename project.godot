@@ -16,7 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Typinator"
-config/icon="res://icon.png"
+run/main_scene="res://Scenes/World.tscn"
+
+[display]
+
+window/size/width=1088
+window/size/height=640
 
 [rendering]
 
