@@ -23,12 +23,16 @@ func checkWords():
 			enemy.queue_free()
 			typed_buffer = ""
 			buffer_label.text = typed_buffer
+			break
 			
 		
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
 		var type_event = event as InputEventKey
-		if type_event.scancode == KEY_BACKSPACE:
+		if type_event.scancode == KEY_SPACE:
+			typed_buffer = ""
+			buffer_label.text = typed_buffer
+		elif type_event.scancode == KEY_BACKSPACE:
 			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
 			buffer_label.text = typed_buffer
 		else:
