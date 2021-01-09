@@ -9,19 +9,20 @@ onready var enemies = $enemies
 onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
-onready var buffer_label = $buffer as RichTextLabel
+onready var buffer_label = $archer/buffer as RichTextLabel
 
 var typed_buffer = ""
 var active_words = []
 var alpha_regex = RegEx.new()
 
 export (int) var current_wave = 1
-var current_wave_size = 1
+var current_wave_size = 10
 var min_word_length = 3
 var max_word_length = 4 # has to be at LEAST min_word_length + 1
-var enemy_speed = 0.4
+var enemy_speed = 1.5
 var total_enemies_killed = 0
 var enemies_killed = 0
+var spawn_time = 3 # starts at 5 seconds
 
 func _ready() -> void:
 	randomize()
@@ -59,19 +60,21 @@ func increase_difficulty():
 	
 	if current_wave % 2 == 0:
 		if spawn_timer.wait_time > .5:
-			spawn_timer.wait_time -= .05
+			print("before ",spawn_timer.wait_time)
+			spawn_timer.wait_time = (spawn_time - (0.2 * current_wave))
+			print("after ",spawn_timer.wait_time)
 		
-	if current_wave % 5 == 0:
-		enemy_speed += 0.2
+	if current_wave % 3 == 0:
+		enemy_speed += 0.35
 	
-	if current_wave % 10 == 0: 
+	if current_wave % 6 == 0: 
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
 	
-	if current_wave % 15 == 0:
-		if min_word_length < max_word_length:
+	if current_wave % 10 == 0:
+		if min_word_length < max_word_length - 1:
 			min_word_length += 1
-		current_wave_size += 5
+		current_wave_size += 15
 	
 	
 func check_words():
