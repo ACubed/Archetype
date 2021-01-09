@@ -19,10 +19,11 @@ export (int) var current_wave = 1
 var current_wave_size = 10
 var min_word_length = 3
 var max_word_length = 4 # has to be at LEAST min_word_length + 1
-var enemy_speed = 1.5
+var enemy_speed = .75
 var total_enemies_killed = 0
 var enemies_killed = 0
-var spawn_time = 3 # starts at 5 seconds
+var spawn_rate_min = 0.25
+var spawn_rate_max = 4.0
 
 func _ready() -> void:
 	randomize()
@@ -57,15 +58,10 @@ func stop_wave():
 	start_wave()
 
 func increase_difficulty():
-	
-	if current_wave % 2 == 0:
-		if spawn_timer.wait_time > .5:
-			print("before ",spawn_timer.wait_time)
-			spawn_timer.wait_time = (spawn_time - (0.2 * current_wave))
-			print("after ",spawn_timer.wait_time)
-		
 	if current_wave % 3 == 0:
-		enemy_speed += 0.35
+		enemy_speed += 0.25
+		if 1.5 < spawn_rate_max:
+			spawn_rate_max -= .5
 	
 	if current_wave % 6 == 0: 
 		if max_word_length < MAX_LENGTH + 1:
@@ -110,6 +106,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
+	spawn_timer.wait_time = rand_range(spawn_rate_min, spawn_rate_max)
 
 func spawn_enemy():
 	var enemy_instance = Enemy.instance()
