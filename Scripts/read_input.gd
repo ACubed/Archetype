@@ -14,6 +14,7 @@ onready var buffer_label = $archer/buffer as RichTextLabel
 onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var scrolling_bg = $scrolling_background
 
+var last_index_spawned = -1
 var typed_buffer = ""
 var active_words = []
 var alpha_regex = RegEx.new()
@@ -134,8 +135,9 @@ func spawn_enemy():
 	var randInt = randi()
 	var spawns = r_spawn_points.get_children()
 	var direction = -1
-		
 	var index = randInt % spawns.size()
+	if index != last_index_spawned:
+		index = (randInt + 1) % spawns.size()
 
 	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
 	enemies.add_child(enemy_instance)

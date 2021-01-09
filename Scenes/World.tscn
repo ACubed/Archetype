@@ -622,19 +622,19 @@ position = Vector2( 986.5, 450.5 )
 position = Vector2( 986.5, 495.5 )
 
 [node name="right_1_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 976.5, 330.5 )
+position = Vector2( 977.48, 353.364 )
 
 [node name="right_2_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 981.5, 365.5 )
+position = Vector2( 982.48, 388.364 )
 
 [node name="right_3_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 981.5, 405.5 )
+position = Vector2( 982.48, 428.364 )
 
 [node name="right_4_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 986.5, 450.5 )
+position = Vector2( 987.48, 473.364 )
 
 [node name="right_5_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 986.5, 495.5 )
+position = Vector2( 987.48, 518.364 )
 
 [node name="enemy_left_spawns" type="Node" parent="."]
 
@@ -752,11 +752,11 @@ __meta__ = {
 }
 
 [node name="archer_sprite" type="AnimatedSprite" parent="archer"]
-position = Vector2( 420.873, 420 )
+position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 109 )
 animation = "Run"
-frame = 6
+frame = 3
 playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]
