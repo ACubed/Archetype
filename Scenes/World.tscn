@@ -589,7 +589,7 @@ animations = [ {
 "frames": [ SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ), SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ) ],
 "loop": false,
 "name": "Attack",
-"speed": 10.0
+"speed": 7.0
 }, {
 "frames": [ SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ), SubResource( 95 ), SubResource( 96 ), SubResource( 97 ), SubResource( 98 ), SubResource( 99 ), SubResource( 100 ), SubResource( 101 ), SubResource( 102 ), SubResource( 103 ), SubResource( 104 ), SubResource( 105 ), SubResource( 106 ), SubResource( 107 ), SubResource( 108 ) ],
 "loop": false,
@@ -607,36 +607,36 @@ current = true
 [node name="enemy_right_spawns" type="Node" parent="."]
 
 [node name="right_1_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 925, 330 )
+position = Vector2( 976.5, 330.5 )
 
 [node name="right_2_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 930, 365 )
+position = Vector2( 981.5, 365.5 )
 
 [node name="right_3_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 930, 405 )
+position = Vector2( 981.5, 405.5 )
 
 [node name="right_4_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 935, 450 )
+position = Vector2( 986.5, 450.5 )
 
 [node name="right_5_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 935, 495 )
+position = Vector2( 986.5, 495.5 )
 
 [node name="enemy_left_spawns" type="Node" parent="."]
 
 [node name="left_1_spawn" type="Position2D" parent="enemy_left_spawns"]
-position = Vector2( 25, 330 )
+position = Vector2( -22.5, 332 )
 
 [node name="left_2_spawn" type="Position2D" parent="enemy_left_spawns"]
-position = Vector2( 25, 370 )
+position = Vector2( -22.5, 372 )
 
 [node name="left_3_spawn" type="Position2D" parent="enemy_left_spawns"]
-position = Vector2( 30, 410 )
+position = Vector2( -17.5, 412 )
 
 [node name="left_4_spawn" type="Position2D" parent="enemy_left_spawns"]
-position = Vector2( 35, 455 )
+position = Vector2( -12.5, 457 )
 
 [node name="left_5_spawn" type="Position2D" parent="enemy_left_spawns"]
-position = Vector2( 35, 500 )
+position = Vector2( -12.5, 502 )
 
 [node name="enemies" type="Node" parent="."]
 
@@ -725,19 +725,21 @@ position = Vector2( -0.195465, 0.195465 )
 texture = ExtResource( 8 )
 centered = false
 
-[node name="archer" type="AnimatedSprite" parent="."]
-position = Vector2( 420, 420 )
-frames = SubResource( 109 )
-animation = "Run"
-frame = 5
-playing = true
+[node name="archer" type="Node2D" parent="."]
 
-[node name="buffer" type="RichTextLabel" parent="."]
-margin_left = 452.0
-margin_top = 187.0
-margin_right = 537.0
-margin_bottom = 204.0
+[node name="buffer" type="RichTextLabel" parent="archer"]
+margin_left = 385.0
+margin_top = 440.5
+margin_right = 470.0
+margin_bottom = 457.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="archer_sprite" type="AnimatedSprite" parent="archer"]
+position = Vector2( 420.5, 420 )
+frames = SubResource( 109 )
+animation = "Run"
+frame = 2
+playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
