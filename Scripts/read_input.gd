@@ -142,3 +142,6 @@ func spawn_enemy():
 	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
 	enemies.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
+
+func _on_archer_sprite_animation_finished():
+	pass
