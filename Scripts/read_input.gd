@@ -1,7 +1,5 @@
 extends Node2D
 
-const SPAWN_POINTS = 5
-
 var Enemy = preload("res://Scenes/enemy.tscn")
 
 onready var enemies = $enemies
@@ -59,6 +57,6 @@ func spawn_enemy():
 		
 	var index = randInt % spawns.size()
 
-	enemy_instance.init(direction)
+	enemy_instance.init(direction, 3)
 	enemies.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position

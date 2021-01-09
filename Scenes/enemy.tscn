@@ -11,9 +11,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="enemy" type="AnimatedSprite"]
-position = Vector2( 504.496, 208.559 )
-frames = SubResource( 1 )
+[node name="enemy" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="target" type="RichTextLabel" parent="."]
@@ -28,3 +26,6 @@ text = "wwwwwwwwww"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="enemy_sprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
