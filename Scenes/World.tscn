@@ -729,6 +729,6 @@ centered = false
 position = Vector2( 420, 420 )
 frames = SubResource( 109 )
 animation = "Run"
-frame = 5
+frame = 6
 playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
