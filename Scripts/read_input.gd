@@ -16,18 +16,23 @@ onready var spawn_timer = $spawn_timer
 onready var buffer_label = $buffer as RichTextLabel
 onready var sprite = $archer_sprite as AnimatedSprite
 onready var health_label = $health as RichTextLabel
+onready var archer = $archer as Node2D
+onready var scrolling_bg = $scrolling_background
 
+var last_index_spawned = -1
 var typed_buffer = ""
 var active_words = []
 var alpha_regex = RegEx.new()
 
 export (int) var current_wave = 1
-var current_wave_size = 1
+var current_wave_size = 10
 var min_word_length = 3
 var max_word_length = 4 # has to be at LEAST min_word_length + 1
-var enemy_speed = 0.4
+var enemy_speed = .75
 var total_enemies_killed = 0
 var enemies_killed = 0
+var spawn_rate_min = 0.25
+var spawn_rate_max = 4.0 
 
 
 func _ready() -> void:
@@ -71,37 +76,52 @@ func stop_wave():
 	start_wave()
 
 func increase_difficulty():
-	
-	if current_wave % 2 == 0:
-		if spawn_timer.wait_time > .5:
-			spawn_timer.wait_time -= .05
-		
-	if current_wave % 5 == 0:
-		enemy_speed += 0.2
-	
-	if current_wave % 10 == 0: 
+	if current_wave % 3 == 0:
+		enemy_speed += 0.25
+		if 1.5 < spawn_rate_max:
+			spawn_rate_max -= .5
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
 	
-	if current_wave % 15 == 0:
-		if min_word_length < max_word_length:
+	if current_wave % 6 == 0: 
+		if min_word_length < max_word_length - 1:
 			min_word_length += 1
-		current_wave_size += 5
 	
-	
+	if current_wave % 10 == 0:
+		current_wave_size += 15
+
 func check_words():
 	for enemy in enemies.get_children():
 		var prompt = enemy.get_prompt()
 		if prompt == typed_buffer:
+			kill_enemy()
+			yield(sprite, "animation_finished")
+			start_running()
+
+			# actually kill the enemy now
 			enemy.queue_free()
 			typed_buffer = ""
 			buffer_label.text = typed_buffer
-			enemies_killed += 1
-			if enemies_killed >= current_wave_size:
-				stop_wave()
-				total_enemies_killed += enemies_killed
-				enemies_killed = 0
 			break
+
+func start_running():
+	for bg in scrolling_bg.get_children():
+		bg.start_archer()
+		sprite.play("Run")
+
+func stop_running():
+	for bg in scrolling_bg.get_children():
+		bg.stop_archer()
+
+func kill_enemy():
+	enemies_killed += 1
+	stop_running()
+	sprite.play("Attack")
+	
+	if enemies_killed >= current_wave_size:
+		stop_wave()
+		total_enemies_killed += enemies_killed
+		enemies_killed = 0
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
@@ -122,20 +142,20 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
+	spawn_timer.wait_time = rand_range(spawn_rate_min, spawn_rate_max)
 
 func spawn_enemy():
 	var enemy_instance = Enemy.instance()
 	var randInt = randi()
 	var spawns = r_spawn_points.get_children()
 	var direction = -1
-	
-	if randInt % 2 == 0:
-		# insert into left
-		spawns = l_spawn_points.get_children()
-		direction = 1
-		
 	var index = randInt % spawns.size()
+	if index != last_index_spawned:
+		index = (randInt + 1) % spawns.size()
 
 	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
 	enemies.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
+
+func _on_archer_sprite_animation_finished():
+	pass

@@ -18,15 +18,17 @@ speed = 0.5
 [node name="target" type="RichTextLabel" parent="."]
 anchor_top = 0.00496447
 anchor_bottom = 0.00496447
-margin_left = -48.2944
-margin_top = -48.718
-margin_right = 54.7056
-margin_bottom = -33.718
+margin_left = -49.0704
+margin_top = -77.8198
+margin_right = 53.9296
+margin_bottom = -62.8198
 bbcode_text = "wwwwwwwwww"
 text = "wwwwwwwwww"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="enemy_sprite" type="AnimatedSprite" parent="."]
+scale = Vector2( 2, 2 )
 frames = SubResource( 1 )
