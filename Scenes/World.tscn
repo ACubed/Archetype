@@ -621,6 +621,21 @@ position = Vector2( 986.5, 450.5 )
 [node name="right_5_spawn" type="Position2D" parent="enemy_right_spawns"]
 position = Vector2( 986.5, 495.5 )
 
+[node name="right_1_spawn2" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 976.5, 330.5 )
+
+[node name="right_2_spawn2" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 981.5, 365.5 )
+
+[node name="right_3_spawn2" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 981.5, 405.5 )
+
+[node name="right_4_spawn2" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 986.5, 450.5 )
+
+[node name="right_5_spawn2" type="Position2D" parent="enemy_right_spawns"]
+position = Vector2( 986.5, 495.5 )
+
 [node name="enemy_left_spawns" type="Node" parent="."]
 
 [node name="left_1_spawn" type="Position2D" parent="enemy_left_spawns"]
