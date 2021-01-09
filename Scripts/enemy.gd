@@ -10,9 +10,11 @@ onready var prompt_text = prompt.text
 
 onready var file_manager = preload("file_manager.gd").new()
 onready var words_dict = file_manager.dict
-
 var min_len = 3
 var max_len = 4
+var hit_points = 10
+var offset = 1
+var archer_x = 420
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
 	randomize()
@@ -29,7 +31,8 @@ func set_random_word():
 	prompt.parse_bbcode(set_center_tags(prompt_text))
 
 func _physics_process(delta: float) -> void:
-	global_position.x += speed
+	if not abs(global_position.x - archer_x) <= offset:
+		global_position.x += speed
 
 func get_prompt() -> String:
 	return prompt_text
