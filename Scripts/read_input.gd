@@ -5,7 +5,7 @@ const MAX_LENGTH = 6
 
 var Enemy = preload("res://Scenes/enemy.tscn")
 
-var archer = preload("archer.gd").new()
+var archer_obj = preload("archer.gd").new()
 var archer_position = 420
 
 onready var enemies = $enemies
@@ -14,7 +14,7 @@ onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
 onready var buffer_label = $buffer as RichTextLabel
-onready var sprite = $archer_sprite as AnimatedSprite
+onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var health_label = $health as RichTextLabel
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
@@ -40,14 +40,14 @@ func _ready() -> void:
 	alpha_regex.compile("[a-z]")
 	spawn_enemy()
 	start_wave()
-	archer_container.add_child(archer)
-	health_label.text = "Health: %d" % archer.health
+	archer_container.add_child(archer_obj)
+	health_label.text = "Health: %d" % archer_obj.health
 
 func _process(delta):
 	for enemy in enemies.get_children():
 		if abs(enemy.position.x - archer_position) <= enemy.offset:
-			archer.take_hit(enemy.hit_points)
-			health_label.text = "Health: %d" % archer.health
+			archer_obj.take_hit(enemy.hit_points)
+			health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
 	print("Starting wave ",current_wave)
