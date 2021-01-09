@@ -752,7 +752,8 @@ __meta__ = {
 }
 
 [node name="archer_sprite" type="AnimatedSprite" parent="archer"]
-position = Vector2( 420.5, 420 )
+position = Vector2( 420.873, 420 )
+scale = Vector2( 2, 2 )
 frames = SubResource( 109 )
 animation = "Run"
 frame = 6
