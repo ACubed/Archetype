@@ -13,6 +13,7 @@ animations = [ {
 
 [node name="enemy" type="Node2D"]
 script = ExtResource( 2 )
+speed = 0.5
 
 [node name="target" type="RichTextLabel" parent="."]
 anchor_top = 0.00496447
