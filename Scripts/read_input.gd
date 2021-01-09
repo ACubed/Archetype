@@ -9,7 +9,10 @@ onready var enemies = $enemies
 onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
+onready var archer = $archer as Node2D
 onready var buffer_label = $archer/buffer as RichTextLabel
+onready var sprite = $archer/archer_sprite as AnimatedSprite
+onready var scrolling_bg = $scrolling_background
 
 var typed_buffer = ""
 var active_words = []
@@ -71,8 +74,7 @@ func increase_difficulty():
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
 		current_wave_size += 15
-	
-	
+
 func check_words():
 	for enemy in enemies.get_children():
 		var prompt = enemy.get_prompt()
@@ -80,12 +82,25 @@ func check_words():
 			enemy.queue_free()
 			typed_buffer = ""
 			buffer_label.text = typed_buffer
-			enemies_killed += 1
-			if enemies_killed >= current_wave_size:
-				stop_wave()
-				total_enemies_killed += enemies_killed
-				enemies_killed = 0
+			kill_enemy()
 			break
+
+func kill_enemy():
+	enemies_killed += 1
+
+	for bg in scrolling_bg.get_children():
+		bg.stop_archer()
+	sprite.play("Attack")
+		
+	if enemies_killed >= current_wave_size:
+		stop_wave()
+		total_enemies_killed += enemies_killed
+		enemies_killed = 0
+
+func start_running():
+	for bg in scrolling_bg.get_children():
+		bg.start_archer()
+	sprite.play("Run")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
@@ -119,3 +134,9 @@ func spawn_enemy():
 	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
 	enemies.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
+
+
+func _on_archer_sprite_animation_finished():
+	for bg in scrolling_bg.get_children():
+		bg.start_archer()
+	sprite.play("Run")

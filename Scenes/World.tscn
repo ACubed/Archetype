@@ -584,17 +584,17 @@ animations = [ {
 "frames": [ SubResource( 63 ), SubResource( 64 ), SubResource( 65 ), SubResource( 66 ), SubResource( 67 ), SubResource( 68 ), SubResource( 69 ), SubResource( 70 ) ],
 "loop": true,
 "name": "Run",
-"speed": 10.0
+"speed": 15.0
 }, {
 "frames": [ SubResource( 71 ), SubResource( 72 ), SubResource( 73 ), SubResource( 74 ), SubResource( 75 ), SubResource( 76 ), SubResource( 77 ), SubResource( 78 ), SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ), SubResource( 83 ), SubResource( 84 ) ],
 "loop": false,
 "name": "Attack",
-"speed": 7.0
+"speed": 20.0
 }, {
 "frames": [ SubResource( 85 ), SubResource( 86 ), SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ), SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ), SubResource( 95 ), SubResource( 96 ), SubResource( 97 ), SubResource( 98 ), SubResource( 99 ), SubResource( 100 ), SubResource( 101 ), SubResource( 102 ), SubResource( 103 ), SubResource( 104 ), SubResource( 105 ), SubResource( 106 ), SubResource( 107 ), SubResource( 108 ) ],
 "loop": false,
 "name": "Death",
-"speed": 10.0
+"speed": 5.0
 } ]
 
 [node name="World" type="Node2D"]
@@ -740,6 +740,7 @@ __meta__ = {
 position = Vector2( 420.5, 420 )
 frames = SubResource( 109 )
 animation = "Run"
-frame = 4
+frame = 7
 playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]
