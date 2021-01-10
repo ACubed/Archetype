@@ -29,6 +29,10 @@ var green_health = preload("res://Images/barHorizontal_green.png")
 var yellow_health = preload("res://Images/barHorizontal_yellow.png")
 var red_health = preload("res://Images/barHorizontal_red.png")
 
+onready var audio_animator = $audio_animator
+var audio_tense_hp_1 = false
+var audio_tense_hp_2 = false
+
 var last_index_spawned = -1
 var typed_buffer = ""
 var active_words = []
@@ -216,9 +220,6 @@ func stop_running():
 func kill_enemy(enemy):
 	enemies_killed += 1
 
-	if enemies_killed == 1:
-		audio_enable("audio_bass_1")
-
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
 		if prev_enemy != null:
@@ -226,6 +227,9 @@ func kill_enemy(enemy):
 
 	sprite.play("Attack")
 	prev_enemy = enemy
+
+	if enemies_killed == 1:
+		fade_in_audio("audio_bass_1")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
@@ -271,12 +275,42 @@ func initialize_music():
 	audio_enable("audio_percussion_1")
 	audio_enable("audio_string_beat_1")
 
+func get_audio_position():
+	var pos = get_node("audio_node/audio_bass_1").get_playback_position()
+	return pos
+
 func audio_enable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = 1
 
 func audio_disable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = -80
 
+# Add an audio layer name to the queue. It will start playing on the next loop
+func fade_in_audio(layer_name):
+	audio_animator.play("fadein_" + layer_name)
+
+func check_health_for_audio(health_num):
+	if (!audio_tense_hp_2 && health_num < 100):
+		fade_in_audio("audio_string_frozen_2")
+		audio_tense_hp_2 = true
+	if (!audio_tense_hp_1 && health_num <= 50):
+		fade_in_audio("audio_string_frozen_1")
+		audio_tense_hp_1 = true
+
 func audio_on_wave_start():
+	if current_wave == 3:
+		fade_in_audio("audio_bass_2")
+		fade_in_audio("audio_string_long_2")
 	if current_wave == 5:
-		audio_enable("audio_bass_2")
+		fade_in_audio("audio_violin_1")
+	if current_wave == 6:
+		fade_in_audio("audio_piano_1")
+	if current_wave == 8:
+		fade_in_audio("audio_piano_2")
+		fade_in_audio("string_beat_2")
+		fade_in_audio("audio_percussion_2")
+	if current_wave == 10:
+		fade_in_audio("audio_percussion_3")
+	if current_wave == 12:
+		fade_in_audio("audio_percussion_4")
+		fade_in_audio("audio_choir_1")
