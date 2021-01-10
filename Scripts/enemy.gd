@@ -63,3 +63,9 @@ func attack():
 	sprite.play("Attack")
 	yield(sprite, "animation_finished")
 	attacking = false
+
+func die():
+	sprite.play("Death")
+	yield(sprite, "animation_finished")
+	queue_free()
+	

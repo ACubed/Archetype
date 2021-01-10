@@ -13,7 +13,6 @@ onready var archer_container = $archer
 onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
-onready var hit_timer = $hit_timer
 onready var buffer_label = $buffer as RichTextLabel
 onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var health_bar = $hp_bar
@@ -23,7 +22,7 @@ onready var round_counter = $round_label
 onready var start_label = $start
 onready var game_over_label = $game_over
 
-onready var exempt_moving_bgs = [$scrolling_background/bg_layer_3, $scrolling_background/bg_layer_4]
+var exempt_moving_bgs = []
 
 # health textures
 var green_health = preload("res://Images/barHorizontal_green.png")
@@ -51,20 +50,20 @@ var prev_enemy = null
 func _ready() -> void:
 	randomize()
 	alpha_regex.compile("[a-z]")
+	stop_running()
 
 func start_game():
 	started = true
 	game_over = false
 	start_label.visible = false
-	game_over_label.visible = false
-	typed_buffer = ""
-	buffer_label.text = ""
-	spawn_enemy()
-	start_wave()
-	archer_obj.health = 100
 	archer_container.add_child(archer_obj)
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
+	start_running()
+	exempt_moving_bgs = [$scrolling_background/bg_layer_3, $scrolling_background/bg_layer_4]
+	typed_buffer = ""
+	buffer_label.text = ""
+	start_wave()
 
 
 func stop_world():
@@ -72,9 +71,10 @@ func stop_world():
 	for enemy in enemies.get_children():
 		enemy.queue_free()
 	sprite.play("Death")
+	exempt_moving_bgs = []
+	stop_running()
 	yield(sprite, "animation_finished")
 	stop_game()
-
 
 func stop_game():
 	game_over = true
@@ -152,7 +152,7 @@ func check_words():
 			start_game()
 	elif game_over:
 		if typed_buffer == "restart":
-			start_game()
+			get_tree().reload_current_scene()
 	else:
 		for enemy in enemies.get_children():
 			var prompt = enemy.get_prompt()
@@ -166,9 +166,9 @@ func check_words():
 				
 				# actually kill the enemy now
 				if prev_enemy != null:
-					prev_enemy.queue_free()
+					prev_enemy.die()
 				if enemy != null:
-					enemy.queue_free()
+					enemy.die()
 				
 				start_running()
 				
@@ -211,7 +211,7 @@ func kill_enemy(enemy):
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
 		if prev_enemy != null:
-			prev_enemy.queue_free()
+			prev_enemy.die()
 
 	sprite.play("Attack")
 	prev_enemy = enemy
