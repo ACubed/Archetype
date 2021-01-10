@@ -209,11 +209,13 @@ func check_words():
 
 				start_running()
 
+				$enemies_remaining.parse_bbcode(str("ENEMIES REMAINING: ", current_wave_size - enemies_killed))
+				$total_kills.parse_bbcode(str("TOTAL KILLS: ", total_enemies_killed))
 				if enemies_killed >= current_wave_size:
 					total_enemies_killed += enemies_killed
 					enemies_killed = 0
 					stop_wave()
-				break
+					break
 
 # check players health to determine when he dies
 func check_health():
@@ -355,7 +357,7 @@ func spawn_enemy():
 
 func kill_enemy(enemy):
 	enemies_killed += 1
-
+	total_enemies_killed += 1	
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
 		if prev_enemy != null:
@@ -445,9 +447,11 @@ func use_nuke():
 		elif enemy.attacking or enemy.dead:
 			continue
 		enemies_killed += 1
+		total_enemies_killed += 1
+		$enemies_remaining.parse_bbcode(str("ENEMIES REMAINING: ", current_wave_size - enemies_killed))
+		$total_kills.parse_bbcode(str("TOTAL KILLS: ", total_enemies_killed))
 		enemy.die()
 		if enemies_killed >= current_wave_size:
-			total_enemies_killed += enemies_killed
 			enemies_killed = 0
 			stop_wave()
 			break

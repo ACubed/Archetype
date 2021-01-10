@@ -609,12 +609,36 @@ __meta__ = {
 }
 
 [node name="wave_label" type="RichTextLabel" parent="."]
-margin_left = 18.28
-margin_top = 465.363
-margin_right = 107.28
-margin_bottom = 482.363
+margin_left = 14.9819
+margin_top = 443.376
+margin_right = 103.982
+margin_bottom = 460.376
 rect_scale = Vector2( 2, 2 )
 text = "WAVE 1"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="enemies_remaining" type="RichTextLabel" parent="."]
+margin_left = 16.8259
+margin_top = 474.06
+margin_right = 199.826
+margin_bottom = 491.06
+rect_scale = Vector2( 1.2, 1.2 )
+text = "ENEMIES REMAINING: 0"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="total_kills" type="RichTextLabel" parent="."]
+margin_left = 12.4284
+margin_top = 7.19875
+margin_right = 195.428
+margin_bottom = 24.1987
+rect_scale = Vector2( 1.2, 1.2 )
+text = "TOTAL KILLS: 0"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -942,7 +966,6 @@ visible = false
 position = Vector2( 286.932, 511.934 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 59 )
-frame = 3
 playing = true
 
 [node name="health" type="AnimatedSprite" parent="toolbar"]
@@ -950,7 +973,7 @@ visible = false
 position = Vector2( 256.883, 512.3 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 67 )
-frame = 6
+frame = 3
 playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]
