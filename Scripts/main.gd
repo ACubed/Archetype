@@ -100,7 +100,6 @@ func stop_world():
 		if enemy == null:
 			continue
 		enemy.taunt()
-		delete_enemy(enemy)
 
 	sfx_controller.play_enemy_death_sound()
 	# play death animation
