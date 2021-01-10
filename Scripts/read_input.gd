@@ -54,6 +54,8 @@ func _process(delta):
 			enemy.attack()
 			yield(enemy.sprite, "animation_finished")
 			archer_obj.take_hit(enemy.hit_points)
+			if archer_obj.health <= 0:
+				sprite.play("death")
 			health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
