@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/violin_1.ogg-31e820261e1845e2ce87f838c64c4feb.oggstr"
+
+[deps]
+
+source_file="res://AudioLayer/violin_1.ogg"
+dest_files=[ "res://.import/violin_1.ogg-31e820261e1845e2ce87f838c64c4feb.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
