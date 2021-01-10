@@ -43,7 +43,20 @@ func get_word() -> String:
 	var length = get_length()
 	randomize()
 	var index = randi() % words_dict[length].size()
-	return words_dict[length][index].to_lower()
+	var word = words_dict[length][index]
+	var regex = RegEx.new()
+	regex.compile("[^a-z]")
+	
+	# Capitalized words are probably not actual words. Pick a different word.
+	if regex.search(word[0]):
+		return get_word()
+	
+	var lower = word.to_lower()
+	# Ensure that every character is a lowercase and alphabetical.
+	if !regex.search(lower):
+		return lower
+	else:
+		return get_word()
 
 func set_center_tags(string: String):
 	return "[center]" + string + "[/center]"

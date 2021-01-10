@@ -1,6 +1,6 @@
 extends Node2D
 
-# max possible length of words is 6
+# max possible length of words is 8
 const MAX_LENGTH = 8
 
 var Enemy = preload("res://Scenes/enemy.tscn")
