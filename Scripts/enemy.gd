@@ -56,3 +56,5 @@ func set_speed(new_speed):
 	
 func get_speed():
 	return speed
+func attack():
+	sprite.play("Atatck")

@@ -13,6 +13,7 @@ onready var archer_container = $archer
 onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
 onready var spawn_timer = $spawn_timer
+onready var hit_timer = $hit_timer
 onready var buffer_label = $buffer as RichTextLabel
 onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var health_label = $health as RichTextLabel
@@ -50,6 +51,8 @@ func _ready() -> void:
 func _process(delta):
 	for enemy in enemies.get_children():
 		if abs(enemy.position.x - archer_position) <= enemy.offset:
+			enemy.attack()
+			yield(enemy.sprite, "animation_finished")
 			archer_obj.take_hit(enemy.hit_points)
 			health_label.text = "Health: %d" % archer_obj.health
 	
