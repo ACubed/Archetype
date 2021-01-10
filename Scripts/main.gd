@@ -19,7 +19,6 @@ var yellow_health = preload("res://Images/barHorizontal_yellow.png")
 var red_health = preload("res://Images/barHorizontal_red.png")
 
 # onready variables
-onready var enemies = $enemies
 onready var archer_container = $archer
 onready var r_spawn_points = $enemy_right_spawns
 onready var l_spawn_points = $enemy_left_spawns
