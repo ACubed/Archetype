@@ -8,7 +8,7 @@ const MAX_ENEMY_ATTACK_SFX_INDEX = 1
 const RAND_MIN_PITCH = 0.92
 const RAND_MAX_PITCH = 1.11
 const SFX_VOLUME_DB = -7.0
-const SFX_SYSTEM_SOUNDS = -1.0
+const SFX_SYSTEM_SOUNDS = 1
 
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
