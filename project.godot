@@ -19,12 +19,6 @@ config/name="Typinator"
 run/main_scene="res://Scenes/World.tscn"
 config/icon="res://icon.png"
 
-[display]
-
-window/size/width=960
-window/size/height=540
-window/size/resizable=false
-
 [rendering]
 
 environment/default_environment="res://default_env.tres"
