@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/percussion_3.ogg-f9fa9dcde33ed040fbdf8b6c2f4d1ffa.oggstr"
+
+[deps]
+
+source_file="res://AudioLayer/percussion_3.ogg"
+dest_files=[ "res://.import/percussion_3.ogg-f9fa9dcde33ed040fbdf8b6c2f4d1ffa.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
