@@ -39,13 +39,9 @@ var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 0.25
 var spawn_rate_max = 4.0 
-<<<<<<< HEAD
 var game_over = false
 var started = false
-=======
 var prev_enemy = null
-
->>>>>>> Fix multiple enemy attack glitch
 
 func _ready() -> void:
 	randomize()
