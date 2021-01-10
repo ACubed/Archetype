@@ -13,7 +13,7 @@ onready var words_dict = file_manager.dict
 var min_len = 3
 var max_len = 4
 var hit_points = 10
-var offset = 1
+var offset = 40
 var archer_x = 420
 var attacking = false
 
