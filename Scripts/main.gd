@@ -8,6 +8,10 @@ const MEDIUM_HP = 65
 const LOW_HP = 25
 const ENEMY_RANGE = 100
 
+const MAX_VOLUME = 1.0
+const MIN_VOLUME = -50.0
+const DIMINISHED_VOLUME = -5.0
+
 var Enemy = preload("res://Scenes/enemy.tscn")
 
 var archer_obj = preload("archer.gd").new()
@@ -28,13 +32,13 @@ onready var start_label = $start
 onready var game_over_label = $game_over
 
 var exempt_moving_bgs = []
+var sliding_audio_tracks = []
 
 # health textures
 var green_health = preload("res://Images/barHorizontal_green.png")
 var yellow_health = preload("res://Images/barHorizontal_yellow.png")
 var red_health = preload("res://Images/barHorizontal_red.png")
 
-onready var audio_animator = $audio_animator
 var audio_tense_hp_1 = false
 var audio_tense_hp_2 = false
 
@@ -74,7 +78,6 @@ func start_game():
 	buffer_label.text = ""
 	start_wave()
 
-
 func stop_world():
 	spawn_timer.stop()
 	for enemy in enemies.get_children():
@@ -92,6 +95,7 @@ func stop_game():
 	game_over_label.visible = true
 
 func _process(delta):
+	process_sliding_audio()
 	if started and not game_over:
 		for enemy in enemies.get_children():
 			if enemy == null or enemy.dead:
@@ -289,7 +293,7 @@ func _on_archer_sprite_animation_finished():
 
 func initialize_music():
 	for audio_node in get_node("audio_node").get_children():
-		audio_node.volume_db = -80
+		audio_node.volume_db = MIN_VOLUME
 		audio_node.play()
 	audio_enable("audio_bass_1")
 	audio_enable("audio_percussion_1")
@@ -300,16 +304,7 @@ func get_audio_position():
 
 func audio_enable(layer_name):
 	if get_node("audio_node/" + layer_name) != null:
-		get_node("audio_node/" + layer_name).volume_db = 1
-
-# Add an audio layer name to the queue. It will start playing on the next loop
-func fade_in_audio(layer_name):
-	if get_node("audio_node/" + layer_name) != null:
-		audio_animator.play("fadein_" + layer_name)
-
-func fade_out_audio(layer_name):
-	if get_node("audio_node/" + layer_name) != null:
-		audio_animator.play("fadeout_" + layer_name)
+		get_node("audio_node/" + layer_name).volume_db = MAX_VOLUME
 
 func play_frozen_1():
 	if !audio_tense_hp_1:
@@ -347,7 +342,7 @@ func check_health_for_audio(health_num):
 		fadeout_frozen_2()
 
 func audio_on_enemy_first_killed():
-	fade_in_audio("audio_string_beat_1")
+	fade_in_audio("audio_string_beat_1", 180)
 
 func audio_on_wave_start():
 	if current_wave == 2:
@@ -355,22 +350,59 @@ func audio_on_wave_start():
 	if current_wave == 3:
 		fade_in_audio("audio_string_long_2")
 	if current_wave == 4:
+		fade_in_audio("audio_piano_1")
 		fade_in_audio("audio_violin_1")
 	if current_wave == 5:
-		fade_in_audio("audio_piano_1")
-	if current_wave == 6:
 		fade_in_audio("audio_piano_2")
-	if current_wave == 7:
 		fade_in_audio("audio_percussion_2")
-	if current_wave == 8:
+	if current_wave == 6:
 		fade_in_audio("string_beat_2")
-	if current_wave == 9:
 		play_frozen_2()
-	if current_wave == 10:
-		fade_in_audio("audio_choir_1")
-	if current_wave == 11:
+	if current_wave == 7:
 		play_frozen_1()
-	if current_wave == 12:
-		fade_in_audio("audio_percussion_3")
-	if current_wave == 13:
-		fade_in_audio("audio_percussion_4")
+	if current_wave == 8:
+		fade_in_audio("audio_choir_1")
+	if current_wave == 10:
+		fade_in_audio("audio_percussion_3", 180)
+		fade_in_audio("audio_percussion_4", 180)
+
+func fade_in_audio(audio_name, duration = 90):
+	add_slide_audio(audio_name, MAX_VOLUME, duration)
+	
+func fade_out_audio(audio_name, duration = 90):
+	add_slide_audio(audio_name, MIN_VOLUME, duration)
+
+# Slide the volume of a specified track layer over the given duration.
+func add_slide_audio(audio_name, dest_volume, duration = 90):
+	var stream = get_node("audio_node/" + audio_name)
+	
+	if dest_volume > MAX_VOLUME:
+		dest_volume = MAX_VOLUME
+	if dest_volume < MIN_VOLUME:
+		dest_volume = MIN_VOLUME
+		
+	# Don't add to the sliding list if the volume already matches.
+	if int(round(dest_volume)) == int(round(stream.volume_db)):
+		return
+		
+	var diff = dest_volume - stream.volume_db
+	var step_change = diff / duration
+	
+	var params = {
+		"stream": stream, 
+		"dest_volume": dest_volume,
+		"duration": duration, 
+		"step_change": step_change,
+	}
+	sliding_audio_tracks.append(params)
+	
+func process_sliding_audio():
+	for a in sliding_audio_tracks:
+		var stream = a["stream"]
+		if int(round(stream.volume_db)) == int(round(a["dest_volume"])) or a["duration"] <= 0:
+			stream.volume_db = a["dest_volume"]
+			sliding_audio_tracks.erase(a)
+		else:
+			stream.volume_db += a["step_change"]
+			a["duration"] -= 1
+				
