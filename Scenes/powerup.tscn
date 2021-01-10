@@ -7,67 +7,67 @@
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 16, 16 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=2]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 16, 0, 16, 16 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=3]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 16, 16 )
+region = Rect2( 96, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=4]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 16, 16, 16 )
+region = Rect2( 0, 48, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=5]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 16, 16, 16, 16 )
+region = Rect2( 48, 48, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=6]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 32, 16, 16, 16 )
+region = Rect2( 96, 48, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=7]
 flags = 4
 atlas = ExtResource( 1 )
-region = Rect2( 0, 32, 16, 16 )
+region = Rect2( 0, 96, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=8]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 0, 0, 16, 16 )
+region = Rect2( 0, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=9]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 16, 0, 16, 16 )
+region = Rect2( 48, 0, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=10]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 0, 16, 16, 16 )
+region = Rect2( 0, 48, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=11]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 16, 16, 16, 16 )
+region = Rect2( 48, 48, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=12]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 0, 32, 16, 16 )
+region = Rect2( 0, 96, 48, 48 )
 
 [sub_resource type="AtlasTexture" id=13]
 flags = 4
 atlas = ExtResource( 2 )
-region = Rect2( 16, 32, 16, 16 )
+region = Rect2( 48, 96, 48, 48 )
 
 [sub_resource type="SpriteFrames" id=14]
 animations = [ {
@@ -87,10 +87,9 @@ script = ExtResource( 3 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0.100495, 0 )
-scale = Vector2( 2.5, 2.5 )
 frames = SubResource( 14 )
 animation = "nuke"
-frame = 3
+frame = 2
 playing = true
 
 [node name="label" type="RichTextLabel" parent="."]
