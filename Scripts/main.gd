@@ -6,7 +6,6 @@ const FULL_HP = 100
 const HIGH_HP = 91
 const MEDIUM_HP = 65
 const LOW_HP = 25
-const ENEMY_RANGE = 100
 const MAX_VOLUME = -7.0
 const MIN_VOLUME = -40.0
 const DIMINISHED_VOLUME = -10.0
@@ -38,7 +37,7 @@ onready var sfx_controller = $sfx_node
 # other global variables
 var exempt_moving_bgs = [] # the backgrounds that are exempt from stopping. (clouds, etc)
 var sliding_audio_tracks = []
-var archer_position = 420
+var archer_position = 200
 var audio_tense_hp_1 = false
 var audio_tense_hp_2 = false
 var last_index_spawned = -1
@@ -49,7 +48,7 @@ var current_wave_size = 5
 var current_wave_spawned_count = 0
 var min_word_length = 3
 var max_word_length = 5 # has to be at LEAST min_word_length + 1
-var enemy_speed = 1.1
+var enemy_speed = 0.85
 var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 1.5
@@ -122,7 +121,7 @@ func _process(delta):
 		for enemy in enemy_floor.get_children():
 			if enemy == null or enemy.dead:
 				continue
-			if abs(enemy.global_position.x - archer_position + ENEMY_RANGE) <= enemy.offset:
+			if abs(enemy.global_position.x - archer_position) <= enemy.offset:
 				if not enemy.attacking and not enemy.dead:
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")

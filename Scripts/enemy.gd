@@ -13,7 +13,7 @@ onready var words_dict = file_manager.dict
 var min_len = 3
 var max_len = 4
 var damage = 10
-var offset = 40
+var offset = 70
 var archer_x = 200
 var successfully_attacked = false
 var attacking = false
@@ -91,11 +91,16 @@ func archer_stopped():
 func archer_running():
 	archer_moving = true
 
+func play_random_attack_animation():
+	randomize()
+	var rand_index = randi() % 3
+	sprite.play("Attack" + str(rand_index))
+
 func attack():
 	if dying or dead:
 		return
 	attacking = true
-	sprite.play("Attack")
+	play_random_attack_animation()
 	yield(sprite, "animation_finished")
 	successfully_attacked = true
 	attacking = false
