@@ -907,12 +907,16 @@ visible = false
 position = Vector2( 286.932, 511.934 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 59 )
+frame = 2
+playing = true
 
 [node name="health" type="AnimatedSprite" parent="toolbar"]
 visible = false
 position = Vector2( 256.883, 512.3 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 67 )
+frame = 2
+playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]
 [connection signal="button_up" from="mute_music" to="." method="_on_mute_music_button_up"]
