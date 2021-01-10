@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/archer_attack.wav-741808089c2947c098d35e9fc55ff840.sample"
+
+[deps]
+
+source_file="res://SoundEffects/archer_attack.wav"
+dest_files=[ "res://.import/archer_attack.wav-741808089c2947c098d35e9fc55ff840.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

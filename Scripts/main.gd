@@ -31,6 +31,7 @@ onready var enemy_floor = $scrolling_background/enemy_floor
 onready var round_counter = $round_label
 onready var start_label = $start
 onready var game_over_label = $game_over
+onready var sfx_controller = $sfx_node
 
 var exempt_moving_bgs = []
 var sliding_audio_tracks = []
@@ -198,6 +199,9 @@ func check_words():
 				yield(sprite, "animation_finished")
 
 				# actually kill the enemy now
+				if prev_enemy != null || enemy != null:
+					sfx_controller.play_enemy_death_sound()
+				
 				if prev_enemy != null:
 					prev_enemy.die()
 				if enemy != null:
@@ -252,6 +256,7 @@ func kill_enemy(enemy):
 		if prev_enemy != null:
 			prev_enemy.die()
 
+	sfx_controller.play_archer_attack_sound()
 	sprite.play("Attack")
 	prev_enemy = enemy
 	
@@ -367,7 +372,7 @@ func audio_on_wave_start():
 		fade_in_audio("audio_piano_2")
 		fade_in_audio("audio_percussion_2")
 	if current_wave == 6:
-		fade_in_audio("string_beat_2")
+		fade_in_audio("audio_string_beat_2")
 		play_frozen_2()
 	if current_wave == 7:
 		play_frozen_1()
