@@ -97,19 +97,24 @@ func _process(delta):
 					yield(enemy.sprite, "animation_finished")
 					archer_obj.take_hit(enemy.hit_points)
 					enemy.queue_free()
-					if archer_obj.health <= 0:
-						stop_world()
-					health_bar.value = archer_obj.health
-					if health_bar.value < 25:
-						health_bar.set_progress_texture(red_health)
-					elif health_bar.value < 65:
-						health_bar.set_progress_texture(yellow_health)
-					else:
-						health_bar.set_progress_texture(green_health)
-					$hp_bar/health_label.parse_bbcode(
-						str("[center]", health_bar.value, "/100[/center]")
-					)
-					check_health_for_audio(archer_obj.health)
+					check_health()
+
+func check_health():
+	if archer_obj == null:
+		return
+	if archer_obj.health <= 0:
+		stop_world()
+	health_bar.value = archer_obj.health
+	if health_bar.value < 25:
+		health_bar.set_progress_texture(red_health)
+	elif health_bar.value < 65:
+		health_bar.set_progress_texture(yellow_health)
+	else:
+		health_bar.set_progress_texture(green_health)
+	$hp_bar/health_label.parse_bbcode(
+		str("[center]", health_bar.value, "/100[/center]")
+	)
+	check_health_for_audio(archer_obj.health)
 
 func start_wave():
 	print("Starting wave ", current_wave)
@@ -221,6 +226,11 @@ func stop_running():
 			continue
 		enemy.set_speed(enemy.get_speed() + 0.22)
 
+func gain_kill_bounty():
+	if archer_obj != null && archer_obj.health < 100:
+		archer_obj.health += 1
+		check_health()
+
 func kill_enemy(enemy):
 	enemies_killed += 1
 
@@ -232,6 +242,7 @@ func kill_enemy(enemy):
 	sprite.play("Attack")
 	prev_enemy = enemy
 
+	gain_kill_bounty()
 	if enemies_killed == 1:
 		fade_in_audio("audio_bass_1")
 
