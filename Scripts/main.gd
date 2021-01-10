@@ -9,6 +9,7 @@ const LOW_HP = 25
 const MAX_VOLUME = -7.0
 const MIN_VOLUME = -40.0
 const DIMINISHED_VOLUME = -10.0
+const POWER_UP_SPAWN_RATE = .04 # 1 = 100%
 
 # preload scripts
 var Enemy = preload("res://Scenes/enemy.tscn")
@@ -16,6 +17,7 @@ var archer_obj = preload("archer.gd").new()
 var green_health = preload("res://Images/barHorizontal_green.png")
 var yellow_health = preload("res://Images/barHorizontal_yellow.png")
 var red_health = preload("res://Images/barHorizontal_red.png")
+var powerup = preload("res://Scenes/powerup.tscn")
 
 # onready variables
 onready var archer_container = $archer
@@ -58,6 +60,10 @@ var started = false
 var prev_enemy = null
 var archer_running = false
 var music_off = false
+var powerups = ["health", "nuke"]
+var last_powerup_round = 0
+var holding_health = false
+var holding_nuke = false
 
 # export variables
 export (int) var current_wave = 1
@@ -67,6 +73,8 @@ func _ready() -> void:
 	randomize()
 	alpha_regex.compile("[a-z]")
 	stop_running()
+	$toolbar/nuke.visible = false
+	$toolbar/health.visible = false
 
 # when "start" is typed, initializes the game
 func start_game():
@@ -92,6 +100,7 @@ func stop_world():
 		if enemy == null:
 			continue
 		enemy.taunt()
+		delete_enemy(enemy)
 
 	sfx_controller.play_enemy_death_sound()
 	# play death animation
@@ -119,6 +128,8 @@ func _process(delta):
 	process_sliding_audio()
 	if started and not game_over:
 		for enemy in enemy_floor.get_children():
+			if enemy.powerup:
+				continue
 			if enemy == null or enemy.dead:
 				continue
 			if abs(enemy.global_position.x - archer_position) <= enemy.offset:
@@ -157,7 +168,23 @@ func check_words():
 		if typed_buffer == "restart":
 			get_tree().reload_current_scene()
 	else:
+		if typed_buffer == "health" && holding_health:
+			use_health()
+			typed_buffer = ""
+			buffer_label.text = typed_buffer
+			holding_health = false
+			return
+		elif typed_buffer == "nuke" && holding_nuke:
+			typed_buffer = ""
+			buffer_label.text = typed_buffer	
+			use_nuke()
+			holding_nuke = false
+			return
+
 		for enemy in enemy_floor.get_children():
+			if enemy.powerup:
+				process_powerup(enemy)
+				continue
 			if enemy == null or enemy.dead or enemy.dying:
 				continue
 			var prompt = enemy.get_prompt()
@@ -169,11 +196,16 @@ func check_words():
 				kill_enemy(enemy)
 				yield(sprite, "animation_finished")
 
-				# actually kill the enemy now
-				if prev_enemy != null:
-					prev_enemy.die()
-				if enemy != null:
-					enemy.die()
+				# actually kill the enemy now	
+				if prev_enemy == enemy:
+					delete_enemy(enemy)
+					prev_enemy = null
+					enemy = null
+				else:
+					if prev_enemy != null:
+						delete_enemy(prev_enemy)
+					if enemy != null:
+						delete_enemy(enemy)
 
 				start_running()
 
@@ -216,6 +248,9 @@ func stop_wave():
 	wave_complete_label.visible = true
 	spawn_timer.stop()
 
+	for enemy in enemy_floor.get_children():
+		enemy.die()
+	
 	# wait 5 seconds
 	var t = Timer.new()
 	t.set_wait_time(5)
@@ -272,7 +307,9 @@ func start_running():
 			bg.start_scrolling()
 
 	for enemy in enemy_floor.get_children():
-		if enemy == null or enemy.dead or enemy.attacking:
+		if enemy.powerup:
+			pass
+		elif enemy == null or enemy.dead or enemy.attacking:
 			continue
 		enemy.archer_running()
 
@@ -326,7 +363,7 @@ func kill_enemy(enemy):
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
 		if prev_enemy != null:
-			prev_enemy.die()
+			delete_enemy(prev_enemy)
 
 	sfx_controller.play_archer_attack_sound()
 	sprite.play("Attack")
@@ -337,10 +374,91 @@ func kill_enemy(enemy):
 	if enemies_killed == 1:
 		audio_on_enemy_first_killed()
 
+func delete_enemy(enemy):
+	if last_powerup_round != current_wave:
+		check_powerup(enemy)
+	enemy.die()
+
+############################
+# POWER UP
+############################
+func check_powerup(enemy):
+	randomize()
+	var rand_perc = randf()
+	if rand_perc <= POWER_UP_SPAWN_RATE:
+		last_powerup_round = current_wave
+		spawn_powerup(enemy)
+
+func spawn_powerup(enemy):
+	randomize()
+	var index = randi() % powerups.size()
+	print("Spawning powerup ", powerups[index])
+	var powerup_instance = powerup.instance()
+	powerup_instance.position.x = enemy.position.x
+	powerup_instance.position.y = enemy.position.y
+	powerup_instance.get_node("sprite").play(powerups[index])
+	powerup_instance.get_node("label").parse_bbcode(str("[center]", powerups[index], "[/center]"))
+	enemy_floor.add_child(powerup_instance)
+
+func process_powerup(powerup):
+	var prompt = powerup.get_prompt()
+	if prompt == typed_buffer:
+		# clear buffer
+		typed_buffer = ""
+		buffer_label.text = typed_buffer
+		if sprite.animation == "Attack":
+			sprite.set_frame(0)
+			if prev_enemy != null:
+				delete_enemy(prev_enemy)
+		sprite.play("Attack")
+		sfx_controller.play_archer_attack_sound()
+		yield(sprite, "animation_finished")
+		if powerup != null:
+			powerup.queue_free()
+		if prompt == "health":
+			give_health()
+		elif prompt == "nuke":
+			give_nuke()
+
+func give_health():
+	holding_health = true
+	$toolbar/health.visible = true
+
+func give_nuke():
+	holding_nuke = true
+	$toolbar/nuke.visible = true
+	
+func use_health():
+	$toolbar/health.visible = false
+	var base_health_increase = 50
+	if archer_obj.health + base_health_increase > 100:
+		archer_obj.health = 100
+	else:
+		archer_obj.health += base_health_increase
+	check_health()
+	holding_health = false
+
+func use_nuke():
+	$toolbar/nuke.visible = false
+	for enemy in enemy_floor.get_children():
+		if enemy.powerup:
+			continue
+		elif enemy.attacking or enemy.dead:
+			continue
+		enemies_killed += 1
+		enemy.die()
+		if enemies_killed >= current_wave_size:
+			total_enemies_killed += enemies_killed
+			enemies_killed = 0
+			stop_wave()
+			break
+	holding_nuke = false
+		
 ############################
 # ANIMATION
 ############################
 func _on_archer_sprite_animation_finished():
+	sprite.play("Run")
 	pass
 
 ############################

@@ -9,6 +9,7 @@ onready var prompt = $target as RichTextLabel
 onready var prompt_text = prompt.text
 
 onready var file_manager = preload("file_manager.gd").new()
+
 onready var words_dict = file_manager.dict
 var min_len = 3
 var max_len = 4
@@ -23,6 +24,7 @@ var taunting = false
 var initial_speed = 0
 var archer_moving = true
 var sfx_controller = null
+var powerup = false
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int, sfx: Node) -> void:
 	randomize()
