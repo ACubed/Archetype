@@ -106,14 +106,15 @@ func check_words():
 	for enemy in enemies.get_children():
 		var prompt = enemy.get_prompt()
 		if prompt == typed_buffer:
+			# clear buffer
+			typed_buffer = ""
+			buffer_label.text = typed_buffer
 			kill_enemy()
 			yield(sprite, "animation_finished")
 			start_running()
 
 			# actually kill the enemy now
 			enemy.queue_free()
-			typed_buffer = ""
-			buffer_label.text = typed_buffer
 			break
 
 func start_running():
