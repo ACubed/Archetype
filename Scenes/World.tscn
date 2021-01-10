@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=98 format=2]
 
 [ext_resource path="res://Scripts/scroll_background.gd" type="Script" id=1]
 [ext_resource path="res://Backgrounds/mtn_sky_bg.png" type="Texture" id=2]
@@ -40,6 +40,8 @@
 [ext_resource path="res://Images/music.png" type="Texture" id=38]
 [ext_resource path="res://Images/music-mute.png" type="Texture" id=39]
 [ext_resource path="res://AudioLayer/game_over.ogg" type="AudioStream" id=40]
+[ext_resource path="res://SoundEffects/click_up.wav" type="AudioStream" id=41]
+[ext_resource path="res://SoundEffects/click_down.wav" type="AudioStream" id=42]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -682,6 +684,54 @@ bus = "Sound Effects"
 
 [node name="archer_attack_2" type="AudioStreamPlayer" parent="sfx_node"]
 stream = ExtResource( 35 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_down_0" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 42 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_down_1" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 42 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_down_2" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 42 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_down_3" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 42 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_up_0" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 41 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_up_1" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 41 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_up_2" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 41 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="clack_up_3" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 41 )
 volume_db = 1.0
 pitch_scale = 1.07
 bus = "Sound Effects"

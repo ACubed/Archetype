@@ -2,6 +2,7 @@ extends Node
 
 const MAX_ENEMY_DEATH_SFX_INDEX = 4
 const MAX_ARCHER_ATTACK_SFX_INDEX = 2
+const MAX_CLACK_SFX_INDEX = 3
 
 const RAND_MIN_PITCH = 0.92
 const RAND_MAX_PITCH = 1.11
@@ -9,8 +10,10 @@ const SFX_VOLUME_DB = -7.0
 
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
+onready var current_clack_index = 0
 
 var soundfx_off = false
+var clack_down = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,11 +33,27 @@ func play_archer_attack_sound():
 	if current_archer_attack_index > MAX_ARCHER_ATTACK_SFX_INDEX:
 		current_archer_attack_index = 0
 	
-func run_stream(stream):
+func play_key_sound():
+	var type = "up"
+	if clack_down:
+		type = "down"
+	clack_down = !clack_down
+	
+	var stream = get_node("clack_" + type + "_" + str(current_clack_index))
+	run_stream(stream, rand_volume(-10.0, SFX_VOLUME_DB + 2))
+	current_clack_index += 1
+	if current_clack_index > MAX_CLACK_SFX_INDEX:
+		current_clack_index = 0
+	
+func rand_volume(range_start, range_end):
+	randomize()
+	return rand_range(range_start, range_end)
+	
+func run_stream(stream, vol = SFX_VOLUME_DB):
 	stream.stop()
 	randomize()
 	stream.pitch_scale = rand_range(RAND_MIN_PITCH, RAND_MAX_PITCH)
-	stream.volume_db = SFX_VOLUME_DB
+	stream.volume_db = vol
 	stream.play()
 
 func toggle_sound_fx():

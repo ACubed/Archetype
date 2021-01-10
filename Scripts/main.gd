@@ -144,6 +144,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			var typed_char = char(type_event.scancode).to_lower()
 			if alpha_regex.search(typed_char):
+				sfx_controller.play_key_sound()
 				typed_buffer += typed_char
 				buffer_label.text = typed_buffer
 				check_words()
