@@ -22,14 +22,16 @@ var dying = false
 var taunting = false
 var initial_speed = 0
 var archer_moving = true
+var sfx_controller = null
 
-func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
+func init(d: int, s: float, min_word_length: int, max_word_length: int, sfx: Node) -> void:
 	randomize()
 	speed = s
 	speed *= d
 	initial_speed = speed
 	min_len = min_word_length
 	max_len = max_word_length
+	sfx_controller = sfx
 
 func _ready():
 	set_random_word()
@@ -102,6 +104,8 @@ func attack():
 func die():
 	if attacking:
 		attacking = false
+	if !dying:
+		sfx_controller.play_enemy_death_sound()
 	dying = true
 	prompt.parse_bbcode("")
 	sprite.play("DeathArrow")

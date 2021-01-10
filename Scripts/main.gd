@@ -170,9 +170,6 @@ func check_words():
 				yield(sprite, "animation_finished")
 
 				# actually kill the enemy now
-				if prev_enemy != null || enemy != null:
-					sfx_controller.play_enemy_death_sound()
-				
 				if prev_enemy != null:
 					prev_enemy.die()
 				if enemy != null:
@@ -319,7 +316,7 @@ func spawn_enemy():
 	if index != last_index_spawned:
 		index = (randInt + 1) % spawns.size()
 
-	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
+	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length, sfx_controller)
 	enemy_floor.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
 
