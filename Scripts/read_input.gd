@@ -89,10 +89,10 @@ func stop_game():
 func _process(delta):
 	if started and not game_over:
 		for enemy in enemies.get_children():
-			if enemy == null:
+			if enemy == null or enemy.dead:
 				continue
 			if abs(enemy.position.x - archer_position) <= enemy.offset:
-				if not enemy.attacking:
+				if not enemy.attacking and not enemy.dead:
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")
 					archer_obj.take_hit(enemy.hit_points)
@@ -199,7 +199,7 @@ func start_running():
 			bg.start_archer()
 
 	for enemy in enemies.get_children():
-		if enemy == null:
+		if enemy == null or enemy.dead or enemy.attacking:
 			continue
 		enemy.set_speed(enemy.get_speed() - 0.22)
 

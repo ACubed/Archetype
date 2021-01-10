@@ -68,6 +68,8 @@ func attack():
 	attacking = false
 
 func die():
+	if attacking:
+		return
 	dead = true
 	speed = -0.22
 	prompt.parse_bbcode("")
