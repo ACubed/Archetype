@@ -148,6 +148,9 @@ func kill_enemy():
 		audio_enable("audio_bass_1")
 	
 	stop_running()
+	if sprite.animation == "Attack":
+		sprite.stop()
+		sprite.set_frame(0)
 	sprite.play("Attack")
 	
 	if enemies_killed >= current_wave_size:
