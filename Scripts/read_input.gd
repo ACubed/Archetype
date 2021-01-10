@@ -98,7 +98,7 @@ func _process(delta):
 					else:
 						health_bar.set_progress_texture(green_health)
 					$hp_bar/health_label.parse_bbcode(
-						"[center]" + health_bar.value + "/100[/center]"
+						str("[center]", health_bar.value, "/100[/center]")
 					)
 	
 func start_wave():
