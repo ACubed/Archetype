@@ -46,6 +46,7 @@ func _ready() -> void:
 	start_wave()
 	archer_container.add_child(archer_obj)
 	health_label.text = "Health: %d" % archer_obj.health
+	get_node("archer/archer_sprite").playing = true
 	initialize_music()
 
 func _process(delta):
