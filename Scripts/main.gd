@@ -134,10 +134,10 @@ func _process(delta):
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
 		var type_event = event as InputEventKey
-		if type_event.scancode == KEY_SPACE:
+		if type_event.scancode == KEY_SPACE or type_event.scancode == KEY_ENTER:
 			typed_buffer = ""
 			buffer_label.text = typed_buffer
-		elif type_event.scancode == KEY_BACKSPACE or type_event.scancode == KEY_ENTER:
+		elif type_event.scancode == KEY_BACKSPACE:
 			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
 			buffer_label.text = typed_buffer
 		else:
