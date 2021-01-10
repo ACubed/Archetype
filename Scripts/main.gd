@@ -124,6 +124,7 @@ func _process(delta):
 					yield(enemy.sprite, "animation_finished")
 					if (enemy.successfully_attacked && !enemy.dying && !enemy.dead):
 						archer_obj.take_hit(enemy.damage)
+						current_wave_spawned_count -= 1 # spawn one more this round
 						check_health()
 
 # called on input events, keeps track of player typing
