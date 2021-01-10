@@ -1,22 +1,24 @@
 extends Node2D
 
-# max possible length of words is 8
+# constants
 const MAX_LENGTH = 8
 const FULL_HP = 100
 const HIGH_HP = 91
 const MEDIUM_HP = 65
 const LOW_HP = 25
 const ENEMY_RANGE = 100
-
 const MAX_VOLUME = 1.0
 const MIN_VOLUME = -50.0
 const DIMINISHED_VOLUME = -5.0
 
+# preload scripts
 var Enemy = preload("res://Scenes/enemy.tscn")
-
 var archer_obj = preload("archer.gd").new()
-var archer_position = 420
+var green_health = preload("res://Images/barHorizontal_green.png")
+var yellow_health = preload("res://Images/barHorizontal_yellow.png")
+var red_health = preload("res://Images/barHorizontal_red.png")
 
+# onready variables
 onready var enemies = $enemies
 onready var archer_container = $archer
 onready var r_spawn_points = $enemy_right_spawns
@@ -33,23 +35,16 @@ onready var start_label = $start
 onready var game_over_label = $game_over
 onready var sfx_controller = $sfx_node
 
-var exempt_moving_bgs = []
+# other global variables
+var exempt_moving_bgs = [] # the backgrounds that are exempt from stopping. (clouds, etc)
 var sliding_audio_tracks = []
-
-# health textures
-var green_health = preload("res://Images/barHorizontal_green.png")
-var yellow_health = preload("res://Images/barHorizontal_yellow.png")
-var red_health = preload("res://Images/barHorizontal_red.png")
-
+var archer_position = 420
 var audio_tense_hp_1 = false
 var audio_tense_hp_2 = false
-
 var last_index_spawned = -1
 var typed_buffer = ""
 var active_words = []
 var alpha_regex = RegEx.new()
-
-export (int) var current_wave = 1
 var current_wave_size = 5
 var current_wave_spawned_count = 0
 var min_word_length = 3
@@ -64,11 +59,16 @@ var started = false
 var prev_enemy = null
 var archer_running = false
 
+# export variables
+export (int) var current_wave = 1
+
+# called on ready
 func _ready() -> void:
 	randomize()
 	alpha_regex.compile("[a-z]")
 	stop_running()
 
+# when "start" is typed, initializes the game
 func start_game():
 	started = true
 	game_over = false
@@ -82,15 +82,24 @@ func start_game():
 	buffer_label.text = ""
 	start_wave()
 
+# when the game ends
 func stop_world():
 	spawn_timer.stop()
+	
+	# kill all enemies
 	for enemy in enemy_floor.get_children():
 		if enemy == null:
 			continue
 		enemy.die()
+
+	# play death animation
 	sprite.play("Death")
+	
+	# clear exempt moving bgs since everything stops moving now
 	exempt_moving_bgs = []
 	stop_running()
+	
+	# wait till death anim is done to end the game
 	yield(sprite, "animation_finished")
 	stop_game()
 
@@ -98,6 +107,11 @@ func stop_game():
 	game_over = true
 	game_over_label.visible = true
 
+############################
+# CORE GAME PROCESSES
+############################
+
+# called every frame, checks enemy attacking
 func _process(delta):
 	process_sliding_audio()
 	if started and not game_over:
@@ -112,6 +126,62 @@ func _process(delta):
 						archer_obj.take_hit(enemy.damage)
 						check_health()
 
+# called on input events, keeps track of player typing
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and not event.is_pressed():
+		var type_event = event as InputEventKey
+		if type_event.scancode == KEY_SPACE:
+			typed_buffer = ""
+			buffer_label.text = typed_buffer
+		elif type_event.scancode == KEY_BACKSPACE:
+			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
+			buffer_label.text = typed_buffer
+		else:
+			var typed_char = char(type_event.scancode).to_lower()
+			if alpha_regex.search(typed_char):
+				typed_buffer += typed_char
+				buffer_label.text = typed_buffer
+				check_words()
+
+# checks the player input against the enemies on the field
+func check_words():
+	if not started:
+		if typed_buffer == "start":
+			start_game()
+	elif game_over:
+		if typed_buffer == "restart":
+			get_tree().reload_current_scene()
+	else:
+		for enemy in enemy_floor.get_children():
+			if enemy == null or enemy.dead or enemy.dying:
+				continue
+			var prompt = enemy.get_prompt()
+			if prompt == typed_buffer:
+				# clear buffer
+				typed_buffer = ""
+				buffer_label.text = typed_buffer
+				stop_running()
+				kill_enemy(enemy)
+				yield(sprite, "animation_finished")
+
+				# actually kill the enemy now
+				if prev_enemy != null || enemy != null:
+					sfx_controller.play_enemy_death_sound()
+				
+				if prev_enemy != null:
+					prev_enemy.die()
+				if enemy != null:
+					enemy.die()
+
+				start_running()
+
+				if enemies_killed >= current_wave_size:
+					stop_wave()
+					total_enemies_killed += enemies_killed
+					enemies_killed = 0
+				break
+
+# check players health to determine when he dies
 func check_health():
 	if archer_obj == null:
 		return
@@ -129,6 +199,9 @@ func check_health():
 	)
 	check_health_for_audio(archer_obj.health)
 
+############################
+# WAVES & DIFFICULTY
+############################
 func start_wave():
 	print("Starting wave ", current_wave)
 	spawn_timer.start()
@@ -178,43 +251,15 @@ func increase_difficulty():
 		if spawn_rate_min - 0.25 > 0.25:
 			spawn_rate_min -= 0.25
 
-func check_words():
-	if not started:
-		if typed_buffer == "start":
-			start_game()
-	elif game_over:
-		if typed_buffer == "restart":
-			get_tree().reload_current_scene()
-	else:
-		for enemy in enemy_floor.get_children():
-			if enemy == null or enemy.dead or enemy.dying:
-				continue
-			var prompt = enemy.get_prompt()
-			if prompt == typed_buffer:
-				# clear buffer
-				typed_buffer = ""
-				buffer_label.text = typed_buffer
-				stop_running()
-				kill_enemy(enemy)
-				yield(sprite, "animation_finished")
+func gain_kill_bounty():
+	if archer_obj != null && archer_obj.health < FULL_HP:
+		archer_obj.health += 1
+		check_health()
 
-				# actually kill the enemy now
-				if prev_enemy != null || enemy != null:
-					sfx_controller.play_enemy_death_sound()
-				
-				if prev_enemy != null:
-					prev_enemy.die()
-				if enemy != null:
-					enemy.die()
-
-				start_running()
-
-				if enemies_killed >= current_wave_size:
-					stop_wave()
-					total_enemies_killed += enemies_killed
-					enemies_killed = 0
-				break
-
+############################
+# SCROLLING BACKGROUND
+############################
+# the player starts running, so the background can begin moving again
 func start_running():
 	archer_running = true
 	for bg in scrolling_bg.get_children():
@@ -230,6 +275,7 @@ func start_running():
 
 	sprite.play("Run")
 
+# the player stops running, so the background can slows/stops.
 func stop_running():
 	archer_running = false
 	for bg in scrolling_bg.get_children():
@@ -243,44 +289,9 @@ func stop_running():
 			continue
 		enemy.archer_stopped()
 
-func gain_kill_bounty():
-	if archer_obj != null && archer_obj.health < FULL_HP:
-		archer_obj.health += 1
-		check_health()
-
-func kill_enemy(enemy):
-	enemies_killed += 1
-
-	if sprite.animation == "Attack":
-		sprite.set_frame(0)
-		if prev_enemy != null:
-			prev_enemy.die()
-
-	sfx_controller.play_archer_attack_sound()
-	sprite.play("Attack")
-	prev_enemy = enemy
-	
-	gain_kill_bounty()
-	
-	if enemies_killed == 1:
-		audio_on_enemy_first_killed()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and not event.is_pressed():
-		var type_event = event as InputEventKey
-		if type_event.scancode == KEY_SPACE:
-			typed_buffer = ""
-			buffer_label.text = typed_buffer
-		elif type_event.scancode == KEY_BACKSPACE:
-			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
-			buffer_label.text = typed_buffer
-		else:
-			var typed_char = char(type_event.scancode).to_lower()
-			if alpha_regex.search(typed_char):
-				typed_buffer += typed_char
-				buffer_label.text = typed_buffer
-				check_words()
-
+############################
+# ENEMY SPAWNING AND DEATH
+############################
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
@@ -304,9 +315,33 @@ func spawn_enemy():
 	enemy_floor.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
 
+func kill_enemy(enemy):
+	enemies_killed += 1
+
+	if sprite.animation == "Attack":
+		sprite.set_frame(0)
+		if prev_enemy != null:
+			prev_enemy.die()
+
+	sfx_controller.play_archer_attack_sound()
+	sprite.play("Attack")
+	prev_enemy = enemy
+	
+	gain_kill_bounty()
+	
+	if enemies_killed == 1:
+		audio_on_enemy_first_killed()
+
+############################
+# ANIMATION
+############################
 func _on_archer_sprite_animation_finished():
 	pass
 
+
+############################
+# AUDIO
+############################
 func initialize_music():
 	for audio_node in get_node("audio_node").get_children():
 		audio_node.volume_db = MIN_VOLUME
