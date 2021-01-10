@@ -56,7 +56,7 @@ func get_word() -> String:
 	regex.compile("[^a-z]")
 	
 	# Capitalized words are probably not actual words. Pick a different word.
-	if regex.search(word.left(1)):
+	if word.empty() or regex.search(word.left(1)):
 		return get_word()
 	
 	var lower = word.to_lower()
