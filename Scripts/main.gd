@@ -92,8 +92,9 @@ func stop_world():
 	for enemy in enemy_floor.get_children():
 		if enemy == null:
 			continue
-		enemy.die()
+		enemy.taunt()
 
+	sfx_controller.play_enemy_death_sound()
 	# play death animation
 	sprite.play("Death")
 	play_gameover_music()

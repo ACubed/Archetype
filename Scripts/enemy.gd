@@ -19,6 +19,7 @@ var successfully_attacked = false
 var attacking = false
 var dead = false
 var dying = false
+var taunting = false
 var initial_speed = 0
 var archer_moving = true
 
@@ -39,7 +40,7 @@ func set_random_word():
 	prompt.parse_bbcode(set_center_tags(prompt_text))
 
 func _physics_process(delta: float) -> void:
-	if attacking or dying:
+	if attacking or dying or taunting:
 		pass
 	elif not abs(global_position.x - archer_x) <= offset:
 		position.x += speed
@@ -110,3 +111,8 @@ func die():
 	dying = false
 	queue_free()
 	
+func taunt():
+	if attacking:
+		attacking = false
+	sprite.play("Taunt")
+	taunting = true
