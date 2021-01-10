@@ -72,6 +72,9 @@ func play_enemy_attack_sound(anim_index):
 		run_stream(stream)
 		
 	
+func play_nuke():
+	run_stream_constant_pitch(get_node("nuke_boom"))	
+
 func play_chime():
 	run_stream_constant_pitch(get_node("chime_ok"))	
 

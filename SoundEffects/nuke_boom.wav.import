@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/nuke_boom.wav-89f3e42e51c72506fb84cfcfa8ef2843.sample"
+
+[deps]
+
+source_file="res://SoundEffects/nuke_boom.wav"
+dest_files=[ "res://.import/nuke_boom.wav-89f3e42e51c72506fb84cfcfa8ef2843.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
