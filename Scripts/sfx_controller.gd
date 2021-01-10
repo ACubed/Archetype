@@ -8,6 +8,7 @@ const MAX_ENEMY_ATTACK_SFX_INDEX = 1
 const RAND_MIN_PITCH = 0.92
 const RAND_MAX_PITCH = 1.11
 const SFX_VOLUME_DB = -7.0
+const SFX_SYSTEM_SOUNDS = -1.0
 
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
@@ -71,14 +72,38 @@ func play_enemy_attack_sound(anim_index):
 		run_stream(stream)
 		
 	
+func play_chime():
+	run_stream_constant_pitch(get_node("chime_ok"))	
+
+func play_wave_start():
+	run_stream_constant_pitch(get_node("bells_wave_start"))
+	
+func play_wave_end():
+	run_stream_constant_pitch(get_node("bells_wave_end"))
+	
+func play_magic_heal():
+	run_stream_constant_pitch(get_node("bells_magic_heal"))
+	
+func play_powerup_get():
+	run_stream_constant_pitch(get_node("bells_powerup_get"))
+	
 func rand_volume(range_start, range_end):
 	randomize()
 	return rand_range(range_start, range_end)
 	
 func run_stream(stream, vol = SFX_VOLUME_DB):
+	if stream == null:
+		return
 	stream.stop()
 	randomize()
 	stream.pitch_scale = rand_range(RAND_MIN_PITCH, RAND_MAX_PITCH)
+	stream.volume_db = vol
+	stream.play()
+
+func run_stream_constant_pitch(stream, vol = SFX_SYSTEM_SOUNDS):
+	if stream == null:
+		return
+	stream.stop()
 	stream.volume_db = vol
 	stream.play()
 

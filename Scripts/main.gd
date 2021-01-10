@@ -247,6 +247,7 @@ func start_wave():
 func stop_wave():
 	wave_complete_label.visible = true
 	spawn_timer.stop()
+	sfx_controller.play_wave_end()
 
 	for enemy in enemy_floor.get_children():
 		enemy.die()
@@ -425,10 +426,12 @@ func process_powerup(powerup):
 func give_health():
 	holding_health = true
 	$toolbar/health.visible = true
+	sfx_controller.play_powerup_get()
 
 func give_nuke():
 	holding_nuke = true
 	$toolbar/nuke.visible = true
+	sfx_controller.play_powerup_get()
 	
 func use_health():
 	$toolbar/health.visible = false
@@ -437,6 +440,7 @@ func use_health():
 		archer_obj.health = 100
 	else:
 		archer_obj.health += base_health_increase
+	sfx_controller.play_magic_heal()
 	check_health()
 	holding_health = false
 
@@ -470,8 +474,8 @@ func initialize_music():
 	for audio_node in get_node("audio_node").get_children():
 		audio_node.volume_db = MIN_VOLUME
 		audio_node.play()
-	audio_enable("audio_bass_1")
-	audio_enable("audio_percussion_1")
+	fade_in_audio("audio_bass_1")
+	fade_in_audio("audio_percussion_1")
 
 func get_audio_position():
 	var pos = get_node("audio_node/audio_bass_1").get_playback_position()
@@ -520,6 +524,7 @@ func audio_on_enemy_first_killed():
 	fade_in_audio("audio_string_beat_1", 180)
 
 func audio_on_wave_start():
+	sfx_controller.play_wave_start()
 	if current_wave == 2:
 		fade_in_audio("audio_bass_2")
 	if current_wave == 3:
