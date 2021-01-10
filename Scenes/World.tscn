@@ -702,6 +702,7 @@ margin_bottom = 522.938
 rect_scale = Vector2( 1.5, 1.5 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
