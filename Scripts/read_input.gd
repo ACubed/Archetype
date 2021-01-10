@@ -159,7 +159,7 @@ func check_words():
 			get_tree().reload_current_scene()
 	else:
 		for enemy in enemies.get_children():
-			if enemy == null:
+			if enemy == null or enemy.dead or enemy.attacking:
 				continue
 			var prompt = enemy.get_prompt()
 			if prompt == typed_buffer:
