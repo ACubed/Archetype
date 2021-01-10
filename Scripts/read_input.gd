@@ -59,12 +59,15 @@ func start_game():
 	buffer_label.text = ""
 	spawn_enemy()
 	start_wave()
+	archer_obj.health = 100
 	archer_container.add_child(archer_obj)
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
 	started = true
+	game_over = false
 
 func stop_world():
+	spawn_timer.stop()
 	for enemy in enemies.get_children():
 		enemy.queue_free()
 	sprite.play("Death")
@@ -84,6 +87,7 @@ func _process(delta):
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")
 					archer_obj.take_hit(enemy.hit_points)
+					enemy.queue_free()
 					if archer_obj.health <= 0:
 						stop_world()
 					health_bar.value = archer_obj.health
