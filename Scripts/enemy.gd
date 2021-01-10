@@ -15,6 +15,7 @@ var max_len = 4
 var hit_points = 10
 var offset = 1
 var archer_x = 420
+var attacking = false
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
 	randomize()
@@ -56,5 +57,9 @@ func set_speed(new_speed):
 	
 func get_speed():
 	return speed
+	
 func attack():
-	sprite.play("Atatck")
+	attacking = true
+	sprite.play("Attack")
+	yield(sprite, "animation_finished")
+	attacking = false

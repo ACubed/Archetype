@@ -52,12 +52,13 @@ func _ready() -> void:
 func _process(delta):
 	for enemy in enemies.get_children():
 		if abs(enemy.position.x - archer_position) <= enemy.offset:
-			enemy.attack()
-			yield(enemy.sprite, "animation_finished")
-			archer_obj.take_hit(enemy.hit_points)
-			if archer_obj.health <= 0:
-				sprite.play("death")
-			health_label.text = "Health: %d" % archer_obj.health
+			if not enemy.attacking:
+				enemy.attack()
+				#yield(enemy.sprite, "animation_finished")
+				archer_obj.take_hit(enemy.hit_points)
+				if archer_obj.health <= 0:
+					sprite.play("Death")
+				health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
 	print("Starting wave ", current_wave)
