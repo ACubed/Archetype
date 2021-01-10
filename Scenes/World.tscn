@@ -942,6 +942,7 @@ visible = false
 position = Vector2( 286.932, 511.934 )
 scale = Vector2( 1.5, 1.5 )
 frames = SubResource( 59 )
+frame = 3
 playing = true
 
 [node name="health" type="AnimatedSprite" parent="toolbar"]

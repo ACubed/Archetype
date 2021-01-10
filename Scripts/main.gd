@@ -375,6 +375,8 @@ func kill_enemy(enemy):
 		audio_on_enemy_first_killed()
 
 func delete_enemy(enemy):
+	if enemy == null or enemy.attacking: 
+		return
 	if last_powerup_round != current_wave:
 		check_powerup(enemy.position)
 	enemy.die()
