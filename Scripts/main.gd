@@ -29,9 +29,10 @@ onready var health_bar = $hp_bar
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
 onready var enemy_floor = $scrolling_background/enemy_floor
-onready var round_counter = $round_label
+onready var wave_counter = $wave_label
 onready var start_label = $start
 onready var game_over_label = $game_over
+onready var wave_complete_label = $wave_complete
 onready var sfx_controller = $sfx_node
 
 # other global variables
@@ -73,6 +74,7 @@ func start_game():
 	started = true
 	game_over = false
 	start_label.visible = false
+	wave_complete_label.visible = false
 	archer_container.add_child(archer_obj)
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
@@ -135,7 +137,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if type_event.scancode == KEY_SPACE:
 			typed_buffer = ""
 			buffer_label.text = typed_buffer
-		elif type_event.scancode == KEY_BACKSPACE:
+		elif type_event.scancode == KEY_BACKSPACE or type_event.scancode == KEY_ENTER:
 			typed_buffer = typed_buffer.substr(0, typed_buffer.length() - 1)
 			buffer_label.text = typed_buffer
 		else:
@@ -205,15 +207,15 @@ func check_health():
 # WAVES & DIFFICULTY
 ############################
 func start_wave():
-	print("Starting wave ", current_wave)
+	wave_complete_label.visible = false
 	current_wave_spawned_count = 0
 	spawn_timer.wait_time = 1
 	spawn_timer.start()
-	round_counter.parse_bbcode("ROUND %d" % current_wave)
+	wave_counter.parse_bbcode("WAVE %d" % current_wave)
 	audio_on_wave_start()
 
 func stop_wave():
-	print("wave ", current_wave, " has been cleared!")
+	wave_complete_label.visible = true
 	spawn_timer.stop()
 
 	# wait 5 seconds
