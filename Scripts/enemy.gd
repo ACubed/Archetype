@@ -16,6 +16,7 @@ var hit_points = 10
 var offset = 40
 var archer_x = 420
 var attacking = false
+var dead = false
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
 	randomize()
@@ -59,12 +60,17 @@ func get_speed():
 	return speed
 	
 func attack():
+	if dead:
+		return
 	attacking = true
 	sprite.play("Attack")
 	yield(sprite, "animation_finished")
 	attacking = false
 
 func die():
+	dead = true
+	speed = 0
+	prompt.parse_bbcode("")
 	sprite.play("Death")
 	yield(sprite, "animation_finished")
 	queue_free()
