@@ -61,7 +61,12 @@ func start_game():
 	started = true
 
 func stop_world():
+	for enemy in enemies.get_children():
+		enemy.queue_free()
+	sprite.play("Death")
+	yield(sprite, "animation_finished")
 	stop_game()
+
 
 func stop_game():
 	game_over = true
@@ -77,7 +82,6 @@ func _process(delta):
 					archer_obj.take_hit(enemy.hit_points)
 					if archer_obj.health <= 0:
 						stop_world()
-						sprite.play("Death")
 						
 					health_label.text = "Health: %d" % archer_obj.health
 	
