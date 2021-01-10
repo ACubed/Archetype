@@ -32,6 +32,7 @@ func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void
 
 func _ready():
 	set_random_word()
+	sprite.play("Run")
 
 func set_random_word():
 	prompt_text = get_word()
@@ -102,7 +103,7 @@ func die():
 		attacking = false
 	dying = true
 	prompt.parse_bbcode("")
-	sprite.play("Death")
+	sprite.play("DeathArrow")
 	yield(sprite, "animation_finished")
 	successfully_attacked = false
 	dead = true
