@@ -73,6 +73,8 @@ func _ready() -> void:
 	randomize()
 	alpha_regex.compile("[a-z]")
 	stop_running()
+	$toolbar/nuke.visible = false
+	$toolbar/health.visible = false
 
 # when "start" is typed, initializes the game
 func start_game():
