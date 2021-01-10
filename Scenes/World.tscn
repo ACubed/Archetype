@@ -724,19 +724,37 @@ volume_db = 1.0
 pitch_scale = 1.07
 bus = "Sound Effects"
 
-[node name="enemy_attack_hammer" type="AudioStreamPlayer" parent="sfx_node"]
+[node name="enemy_attack_hammer_0" type="AudioStreamPlayer" parent="sfx_node"]
 stream = ExtResource( 43 )
 volume_db = 1.0
 pitch_scale = 1.07
 bus = "Sound Effects"
 
-[node name="enemy_attack_stab" type="AudioStreamPlayer" parent="sfx_node"]
+[node name="enemy_attack_hammer_1" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 43 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="enemy_attack_stab_0" type="AudioStreamPlayer" parent="sfx_node"]
 stream = ExtResource( 44 )
 volume_db = 1.0
 pitch_scale = 1.07
 bus = "Sound Effects"
 
-[node name="enemy_attack_lift" type="AudioStreamPlayer" parent="sfx_node"]
+[node name="enemy_attack_stab_1" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 44 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="enemy_attack_lift_0" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 45 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
+[node name="enemy_attack_lift_1" type="AudioStreamPlayer" parent="sfx_node"]
 stream = ExtResource( 45 )
 volume_db = 1.0
 pitch_scale = 1.07

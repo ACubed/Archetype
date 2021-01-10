@@ -3,6 +3,7 @@ extends Node
 const MAX_ENEMY_DEATH_SFX_INDEX = 4
 const MAX_ARCHER_ATTACK_SFX_INDEX = 2
 const MAX_CLACK_SFX_INDEX = 3
+const MAX_ENEMY_ATTACK_SFX_INDEX = 1
 
 const RAND_MIN_PITCH = 0.92
 const RAND_MAX_PITCH = 1.11
@@ -11,6 +12,9 @@ const SFX_VOLUME_DB = -7.0
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
 onready var current_clack_index = 0
+onready var current_hammer_index = 0
+onready var current_stab_index = 0
+onready var current_lift_index = 0
 
 var soundfx_off = false
 var clack_down = true
@@ -48,11 +52,20 @@ func play_key_sound():
 func play_enemy_attack_sound(anim_index):
 	var stream = null
 	if anim_index == 0:
-		stream = get_node("enemy_attack_stab")
+		stream = get_node("enemy_attack_stab_" + str(current_stab_index))
+		current_stab_index += 1
+		if current_stab_index > MAX_ENEMY_ATTACK_SFX_INDEX:
+			current_stab_index = 0
 	if anim_index == 1:
-		stream = get_node("enemy_attack_hammer")
+		stream = get_node("enemy_attack_hammer_" + str(current_hammer_index))
+		current_hammer_index += 1
+		if current_hammer_index > MAX_ENEMY_ATTACK_SFX_INDEX:
+			current_hammer_index = 0
 	if anim_index == 2:
-		stream = get_node("enemy_attack_lift")
+		stream = get_node("enemy_attack_lift_" + str(current_lift_index))
+		current_lift_index += 1
+		if current_lift_index > MAX_ENEMY_ATTACK_SFX_INDEX:
+			current_lift_index = 0
 		
 	if stream != null:
 		run_stream(stream)

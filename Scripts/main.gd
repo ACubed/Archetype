@@ -122,7 +122,7 @@ func _process(delta):
 			if enemy == null or enemy.dead:
 				continue
 			if abs(enemy.global_position.x - archer_position) <= enemy.offset:
-				if not enemy.attacking and not enemy.dead:
+				if not enemy.attacking and not enemy.dead and not enemy.successfully_attacked:
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")
 					if (enemy.successfully_attacked && !enemy.dying && !enemy.dead):
