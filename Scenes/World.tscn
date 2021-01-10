@@ -452,34 +452,34 @@ current = true
 [node name="enemy_right_spawns" type="Node" parent="."]
 
 [node name="right_1_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 990, 340 )
+position = Vector2( 990, 310 )
 
 [node name="right_1_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 980, 358 )
+position = Vector2( 980, 328 )
 
 [node name="right_2_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 990, 376 )
+position = Vector2( 990, 346 )
 
 [node name="right_2_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 980, 394 )
+position = Vector2( 980, 364 )
 
 [node name="right_3_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 990, 412 )
+position = Vector2( 990, 382 )
 
 [node name="right_3_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 980, 430 )
+position = Vector2( 980, 400 )
 
 [node name="right_4_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 990, 448 )
+position = Vector2( 990, 418 )
 
 [node name="right_4_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 980, 466 )
+position = Vector2( 980, 436 )
 
 [node name="right_5_spawn" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 990, 484 )
+position = Vector2( 990, 454 )
 
 [node name="right_5_spawn2" type="Position2D" parent="enemy_right_spawns"]
-position = Vector2( 980, 502 )
+position = Vector2( 980, 472 )
 
 [node name="enemy_left_spawns" type="Node" parent="."]
 
