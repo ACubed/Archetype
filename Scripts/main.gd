@@ -127,9 +127,7 @@ func _process(delta):
 	process_sliding_audio()
 	if started and not game_over:
 		for enemy in enemy_floor.get_children():
-			if enemy.powerup:
-				continue
-			if enemy == null or enemy.dead:
+			if enemy == null or enemy.powerup or enemy.dead:
 				continue
 			if abs(enemy.global_position.x - archer_position) <= enemy.offset:
 				if not enemy.attacking and not enemy.dead and not enemy.successfully_attacked:
@@ -256,7 +254,7 @@ func stop_wave():
 	sfx_controller.play_wave_end()
 
 	for enemy in enemy_floor.get_children():
-		if enemy.powerup:
+		if enemy == null or enemy.powerup:
 			continue
 		enemy.die()
 	
