@@ -6096,7 +6096,6 @@ pelvic
 pelvis
 pencil
 pended
-penile
 penman
 penmen
 penned
@@ -6669,8 +6668,6 @@ ranted
 rapids
 rapier
 rapine
-raping
-rapist
 rapped
 rappel
 rapper
