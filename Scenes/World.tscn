@@ -536,7 +536,7 @@ margin_top = 465.363
 margin_right = 107.28
 margin_bottom = 482.363
 rect_scale = Vector2( 2, 2 )
-text = "ROUND 1"
+text = "WAVE 1"
 scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -550,6 +550,7 @@ margin_right = 459.0
 margin_bottom = 214.0
 rect_scale = Vector2( 3, 3 )
 text = "wave complete"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
