@@ -109,6 +109,7 @@ func _process(delta):
 					$hp_bar/health_label.parse_bbcode(
 						str("[center]", health_bar.value, "/100[/center]")
 					)
+					check_health_for_audio(archer_obj.health)
 
 func start_wave():
 	print("Starting wave ", current_wave)
