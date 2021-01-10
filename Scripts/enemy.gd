@@ -14,14 +14,19 @@ var min_len = 3
 var max_len = 4
 var hit_points = 10
 var offset = 40
-var archer_x = 420
+var archer_x = 200
 var attacking = false
 var dead = false
+var dying = false
+var initial_speed = 0
+var archer_moving = true
+const SCROLL_SPEED_BONUS = -0.54
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
 	randomize()
 	speed = s
 	speed *= d
+	initial_speed = speed
 	min_len = min_word_length
 	max_len = max_word_length
 
@@ -33,8 +38,12 @@ func set_random_word():
 	prompt.parse_bbcode(set_center_tags(prompt_text))
 
 func _physics_process(delta: float) -> void:
-	if not abs(global_position.x - archer_x) <= offset:
+	if attacking or dying:
+		global_position.x += SCROLL_SPEED_BONUS
+	elif not abs(global_position.x - archer_x) <= offset:
 		global_position.x += speed
+		if archer_moving:
+			global_position.x += SCROLL_SPEED_BONUS
 
 func get_prompt() -> String:
 	return prompt_text
@@ -48,7 +57,7 @@ func get_word() -> String:
 	regex.compile("[^a-z]")
 	
 	# Capitalized words are probably not actual words. Pick a different word.
-	if regex.search(word[0]):
+	if regex.search(word.left(1)):
 		return get_word()
 	
 	var lower = word.to_lower()
@@ -71,9 +80,17 @@ func set_speed(new_speed):
 	
 func get_speed():
 	return speed
+
+# Mode when the player has stopped moving in this direction.
+func archer_stopped():
+	archer_moving = false
 	
+# Mode when the player is moving toward this enemy.
+func archer_running():
+	archer_moving = true
+
 func attack():
-	if dead:
+	if dying or dead:
 		return
 	attacking = true
 	sprite.play("Attack")
@@ -83,10 +100,12 @@ func attack():
 func die():
 	if attacking:
 		return
-	dead = true
-	speed = -0.22
+	dying = true
+	speed = SCROLL_SPEED_BONUS
 	prompt.parse_bbcode("")
 	sprite.play("Death")
 	yield(sprite, "animation_finished")
+	dead = true
+	dying = false
 	queue_free()
 	

@@ -3,8 +3,10 @@ extends Node2D
 # max possible length of words is 8
 const MAX_LENGTH = 8
 const FULL_HP = 100
+const HIGH_HP = 91
 const MEDIUM_HP = 65
 const LOW_HP = 25
+const ENEMY_RANGE = 100
 
 var Enemy = preload("res://Scenes/enemy.tscn")
 
@@ -45,7 +47,7 @@ export (int) var current_wave = 1
 var current_wave_size = 5
 var min_word_length = 3
 var max_word_length = 5 # has to be at LEAST min_word_length + 1
-var enemy_speed = .75
+var enemy_speed = 1.1
 var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 1.25
@@ -94,7 +96,7 @@ func _process(delta):
 		for enemy in enemies.get_children():
 			if enemy == null or enemy.dead:
 				continue
-			if abs(enemy.position.x - archer_position) <= enemy.offset:
+			if abs(enemy.position.x - archer_position + ENEMY_RANGE) <= enemy.offset:
 				if not enemy.attacking and not enemy.dead:
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")
@@ -149,7 +151,7 @@ func stop_wave():
 
 func increase_difficulty():
 	if current_wave == 2:
-		current_wave_size += 5
+		current_wave_size += 2
 	
 	if current_wave % 2 == 0:
 		current_wave_size += 1
@@ -202,7 +204,6 @@ func check_words():
 				break
 
 func start_running():
-	enemy_speed -= .22
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
 			bg.move_fast()
@@ -212,13 +213,12 @@ func start_running():
 	for enemy in enemies.get_children():
 		if enemy == null or enemy.dead or enemy.attacking:
 			continue
-		enemy.set_speed(enemy.get_speed() - 0.22)
+		enemy.archer_running()
 
 	sprite.play("Run")
 
 
 func stop_running():
-	enemy_speed += .22
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
 			bg.move_slow()
@@ -227,7 +227,7 @@ func stop_running():
 	for enemy in enemies.get_children():
 		if enemy == null:
 			continue
-		enemy.set_speed(enemy.get_speed() + 0.22)
+		enemy.archer_stopped()
 
 func gain_kill_bounty():
 	if archer_obj != null && archer_obj.health < FULL_HP:
@@ -322,11 +322,15 @@ func play_frozen_2():
 		audio_tense_hp_2 = true
 
 func fadeout_frozen_1():
+	if current_wave > 8:
+		return
 	if audio_tense_hp_1:
 		fade_out_audio("audio_string_frozen_1")
 		audio_tense_hp_1 = false
 		
 func fadeout_frozen_2():
+	if current_wave > 8:
+		return
 	if audio_tense_hp_2:
 		fade_out_audio("audio_string_frozen_2")
 		audio_tense_hp_2 = false
@@ -337,9 +341,9 @@ func check_health_for_audio(health_num):
 	elif audio_tense_hp_1 && health_num >= MEDIUM_HP:
 		fadeout_frozen_1()
 		
-	if (!audio_tense_hp_2 && health_num < FULL_HP):
+	if (!audio_tense_hp_2 && health_num < HIGH_HP):
 		play_frozen_2()
-	elif audio_tense_hp_2 && health_num >= FULL_HP:
+	elif audio_tense_hp_2 && health_num >= HIGH_HP:
 		fadeout_frozen_2()
 
 func audio_on_enemy_first_killed():
@@ -348,21 +352,25 @@ func audio_on_enemy_first_killed():
 func audio_on_wave_start():
 	if current_wave == 2:
 		fade_in_audio("audio_bass_2")
-		fade_in_audio("audio_string_long_2")
 	if current_wave == 3:
-		fade_in_audio("audio_violin_1")
-		fade_in_audio("audio_piano_1")
+		fade_in_audio("audio_string_long_2")
 	if current_wave == 4:
-		fade_in_audio("audio_piano_2")
+		fade_in_audio("audio_violin_1")
 	if current_wave == 5:
-		fade_in_audio("audio_percussion_2")
+		fade_in_audio("audio_piano_1")
 	if current_wave == 6:
-		fade_in_audio("string_beat_2")
-		play_frozen_2()
+		fade_in_audio("audio_piano_2")
 	if current_wave == 7:
-		fade_in_audio("audio_choir_1")
-		play_frozen_1()
+		fade_in_audio("audio_percussion_2")
+	if current_wave == 8:
+		fade_in_audio("string_beat_2")
 	if current_wave == 9:
-		fade_in_audio("audio_percussion_3")
+		play_frozen_2()
 	if current_wave == 10:
+		fade_in_audio("audio_choir_1")
+	if current_wave == 11:
+		play_frozen_1()
+	if current_wave == 12:
+		fade_in_audio("audio_percussion_3")
+	if current_wave == 13:
 		fade_in_audio("audio_percussion_4")
