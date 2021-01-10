@@ -42,7 +42,7 @@ var enemy_speed = .75
 var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 1.25
-var spawn_rate_max = 4.0 
+var spawn_rate_max = 4.0
 var game_over = false
 var started = false
 var prev_enemy = null
@@ -105,16 +105,17 @@ func _process(delta):
 					$hp_bar/health_label.parse_bbcode(
 						str("[center]", health_bar.value, "/100[/center]")
 					)
-	
+
 func start_wave():
 	print("Starting wave ", current_wave)
 	spawn_timer.start()
 	round_counter.parse_bbcode("ROUND %d" % current_wave)
+	audio_on_wave_start()
 
 func stop_wave():
 	print("wave ", current_wave, " has been cleared!")
 	spawn_timer.stop()
-	
+
 	# wait 5 seconds
 	var t = Timer.new()
 	t.set_wait_time(5)
@@ -123,13 +124,13 @@ func stop_wave():
 	t.start()
 	yield(t, "timeout")
 	t.queue_free()
-	
+
 	# increment current wave
 	current_wave += 1
-	
+
 	# increase the difficulty for the next wave
 	increase_difficulty()
-	
+
 	# start the next wave
 	start_wave()
 
@@ -140,13 +141,13 @@ func increase_difficulty():
 			spawn_rate_max -= .5
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
-	
-	if current_wave % 6 == 0: 
+
+	if current_wave % 6 == 0:
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
 		if spawn_rate_min - 0.25 > 0.25:
 			spawn_rate_min -= 0.25
-	
+
 	if current_wave % 10 == 0:
 		current_wave_size += 15
 
@@ -169,15 +170,15 @@ func check_words():
 				stop_running()
 				kill_enemy(enemy)
 				yield(sprite, "animation_finished")
-				
+
 				# actually kill the enemy now
 				if prev_enemy != null:
 					prev_enemy.die()
 				if enemy != null:
 					enemy.die()
-				
+
 				start_running()
-				
+
 				if enemies_killed >= current_wave_size:
 					stop_wave()
 					total_enemies_killed += enemies_killed
@@ -191,14 +192,14 @@ func start_running():
 			bg.move_fast()
 		else:
 			bg.start_archer()
-	
+
 	for enemy in enemies.get_children():
 		if enemy == null:
 			continue
 		enemy.set_speed(enemy.get_speed() - 0.22)
-	
+
 	sprite.play("Run")
-	
+
 
 func stop_running():
 	enemy_speed += .22
@@ -214,10 +215,10 @@ func stop_running():
 
 func kill_enemy(enemy):
 	enemies_killed += 1
-	
+
 	if enemies_killed == 1:
 		audio_enable("audio_bass_1")
-	
+
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
 		if prev_enemy != null:
@@ -241,7 +242,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				typed_buffer += typed_char
 				buffer_label.text = typed_buffer
 				check_words()
-			
+
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
@@ -269,9 +270,13 @@ func initialize_music():
 		audio_node.play()
 	audio_enable("audio_percussion_1")
 	audio_enable("audio_string_beat_1")
-	
+
 func audio_enable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = 1
-	
+
 func audio_disable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = -80
+
+func audio_on_wave_start():
+	if current_wave == 5:
+		audio_enable("audio_bass_2")
