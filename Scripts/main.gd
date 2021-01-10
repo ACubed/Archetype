@@ -430,7 +430,9 @@ func fade_out_audio(audio_name, duration = 90):
 func play_gameover_music():
 	for audio_node in get_node("audio_node").get_children():
 		audio_node.volume_db = MIN_VOLUME
-	get_node("audio_node/game_over_music").play()
+	var stream = get_node("audio_node/game_over_music")
+	stream.volume_db = MAX_VOLUME
+	stream.play()
 
 # Slide the volume of a specified track layer over the given duration.
 func add_slide_audio(audio_name, dest_volume, duration = 90):

@@ -11,5 +11,5 @@ dest_files=[ "res://.import/game_over.ogg-c9d266e78556e135e965712748653146.oggst
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
