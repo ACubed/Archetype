@@ -471,7 +471,8 @@ func process_sliding_audio():
 
 func _on_mute_music_button_up():
 	music_off = !music_off
+	sfx_controller.toggle_sound_fx()
 	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), music_off)
 
-func _on_mute_sfx_button_up():
-		sfx_controller.toggle_sound_fx()
+func _on_pause_game_button_up():
+	get_tree().paused = !get_tree().paused

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/sfx-mute.png-69ba08ce18e6d5a057f76bc87247cb1a.stex"
+path="res://.import/play.png-6d891a4a20a0323ddcd89159d8e49176.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/sfx-mute.png"
-dest_files=[ "res://.import/sfx-mute.png-69ba08ce18e6d5a057f76bc87247cb1a.stex" ]
+source_file="res://Images/play.png"
+dest_files=[ "res://.import/play.png-6d891a4a20a0323ddcd89159d8e49176.stex" ]
 
 [params]
 

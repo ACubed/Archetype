@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/music-mute.png-49c35e7c76bc4631a982f0df606eeeb9.stex"
+path="res://.import/pause.png-7b701f92047f24a069b6ef7681176455.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Images/music-mute.png"
-dest_files=[ "res://.import/music-mute.png-49c35e7c76bc4631a982f0df606eeeb9.stex" ]
+source_file="res://Images/pause.png"
+dest_files=[ "res://.import/pause.png-7b701f92047f24a069b6ef7681176455.stex" ]
 
 [params]
 
