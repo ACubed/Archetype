@@ -114,7 +114,13 @@ func start_running():
 			bg.move_fast()
 		else:
 			bg.start_archer()
-		sprite.play("Run")
+	
+	for enemy in enemies.get_children():
+		enemy.set_speed(enemy.get_speed() - 0.22)
+	enemy_speed -= .22
+	
+	sprite.play("Run")
+	
 
 func stop_running():
 	for bg in scrolling_bg.get_children():
@@ -122,6 +128,9 @@ func stop_running():
 			bg.move_slow()
 		else:
 			bg.stop_archer()
+	for enemy in enemies.get_children():
+		enemy.set_speed(enemy.get_speed() + 0.22)
+	enemy_speed += .22
 
 func kill_enemy():
 	enemies_killed += 1

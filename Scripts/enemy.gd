@@ -50,3 +50,9 @@ func get_length() -> int:
 	randomize()
 	var len_range = range(min_len, max_len)
 	return len_range[randi() % len_range.size()]
+
+func set_speed(new_speed):
+	speed = new_speed
+	
+func get_speed():
+	return speed
