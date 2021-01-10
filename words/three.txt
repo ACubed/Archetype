@@ -436,7 +436,6 @@ jay
 JDK
 Jed
 jet
-Jew
 jib
 Jim
 JNI
