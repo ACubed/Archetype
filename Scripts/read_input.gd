@@ -241,10 +241,11 @@ func kill_enemy(enemy):
 
 	sprite.play("Attack")
 	prev_enemy = enemy
-
+	
 	gain_kill_bounty()
+	
 	if enemies_killed == 1:
-		fade_in_audio("audio_bass_1")
+		audio_on_enemy_first_killed()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
@@ -287,8 +288,8 @@ func initialize_music():
 	for audio_node in get_node("audio_node").get_children():
 		audio_node.volume_db = -80
 		audio_node.play()
+	audio_enable("audio_bass_1")
 	audio_enable("audio_percussion_1")
-	audio_enable("audio_string_beat_1")
 
 func get_audio_position():
 	var pos = get_node("audio_node/audio_bass_1").get_playback_position()
@@ -304,28 +305,43 @@ func audio_disable(layer_name):
 func fade_in_audio(layer_name):
 	audio_animator.play("fadein_" + layer_name)
 
-func check_health_for_audio(health_num):
-	if (!audio_tense_hp_2 && health_num < 100):
-		fade_in_audio("audio_string_frozen_2")
-		audio_tense_hp_2 = true
-	if (!audio_tense_hp_1 && health_num <= 50):
+func play_frozen_1():
+	if !audio_tense_hp_1:
 		fade_in_audio("audio_string_frozen_1")
 		audio_tense_hp_1 = true
 
+func play_frozen_2():
+	if !audio_tense_hp_2:
+		fade_in_audio("audio_string_frozen_2")
+		audio_tense_hp_2 = true
+
+func check_health_for_audio(health_num):
+	if (!audio_tense_hp_1 && health_num <= 50):
+		play_frozen_1()
+	if (!audio_tense_hp_2 && health_num < 100):
+		play_frozen_2()
+
+func audio_on_enemy_first_killed():
+	fade_in_audio("audio_string_beat_1")
+
 func audio_on_wave_start():
-	if current_wave == 3:
+	if current_wave == 2:
 		fade_in_audio("audio_bass_2")
 		fade_in_audio("audio_string_long_2")
-	if current_wave == 5:
+	if current_wave == 3:
 		fade_in_audio("audio_violin_1")
-	if current_wave == 6:
 		fade_in_audio("audio_piano_1")
-	if current_wave == 8:
+	if current_wave == 4:
 		fade_in_audio("audio_piano_2")
-		fade_in_audio("string_beat_2")
+	if current_wave == 5:
 		fade_in_audio("audio_percussion_2")
-	if current_wave == 10:
-		fade_in_audio("audio_percussion_3")
-	if current_wave == 12:
-		fade_in_audio("audio_percussion_4")
+	if current_wave == 6:
+		fade_in_audio("string_beat_2")
+		play_frozen_2()
+	if current_wave == 7:
 		fade_in_audio("audio_choir_1")
+		play_frozen_1()
+	if current_wave == 9:
+		fade_in_audio("audio_percussion_3")
+	if current_wave == 10:
+		fade_in_audio("audio_percussion_4")
