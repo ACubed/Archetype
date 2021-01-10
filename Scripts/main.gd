@@ -290,11 +290,6 @@ func increase_difficulty():
 		if spawn_rate_min > 0.75:
 			spawn_rate_min -= 0.25
 
-func gain_kill_bounty():
-	if archer_obj != null && archer_obj.health < FULL_HP:
-		archer_obj.health += 1
-		check_health()
-
 ############################
 # SCROLLING BACKGROUND
 ############################
@@ -369,8 +364,6 @@ func kill_enemy(enemy):
 	sfx_controller.play_archer_attack_sound()
 	sprite.play("Attack")
 	prev_enemy = enemy
-	
-	gain_kill_bounty()
 	
 	if enemies_killed == 1:
 		audio_on_enemy_first_killed()
