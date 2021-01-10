@@ -1891,7 +1891,6 @@ NSAP
 NTIS
 nubs
 nude
-nuke
 null
 numb
 nuns
