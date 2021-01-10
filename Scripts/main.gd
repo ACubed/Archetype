@@ -58,6 +58,7 @@ var game_over = false
 var started = false
 var prev_enemy = null
 var archer_running = false
+var music_off = false
 
 # export variables
 export (int) var current_wave = 1
@@ -338,7 +339,6 @@ func kill_enemy(enemy):
 func _on_archer_sprite_animation_finished():
 	pass
 
-
 ############################
 # AUDIO
 ############################
@@ -456,4 +456,10 @@ func process_sliding_audio():
 		else:
 			stream.volume_db += a["step_change"]
 			a["duration"] -= 1
-				
+
+func _on_mute_music_button_up():
+	music_off = !music_off
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Music"), music_off)
+
+func _on_mute_sfx_button_up():
+		sfx_controller.toggle_sound_fx()

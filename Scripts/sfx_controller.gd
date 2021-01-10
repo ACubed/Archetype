@@ -9,6 +9,8 @@ const RAND_MAX_PITCH = 1.11
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
 
+var soundfx_off = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -32,3 +34,7 @@ func run_stream(stream):
 	randomize()
 	stream.pitch_scale = rand_range(RAND_MIN_PITCH, RAND_MAX_PITCH)
 	stream.play()
+
+func toggle_sound_fx():
+	soundfx_off = !soundfx_off
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Sound Effects"), soundfx_off)
