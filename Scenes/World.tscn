@@ -680,7 +680,7 @@ position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 95 )
 animation = "Run"
-frame = 7
+frame = 2
 playing = true
 
 [node name="health" type="RichTextLabel" parent="."]

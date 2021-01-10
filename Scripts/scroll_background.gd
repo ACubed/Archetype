@@ -18,3 +18,9 @@ func stop_archer():
 
 func start_archer():
 	archer_moving = true
+
+func move_slow():
+	scroll_speed = scroll_speed/2
+
+func move_fast():
+	scroll_speed = scroll_speed*2

@@ -20,6 +20,8 @@ onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
 onready var round_counter = $round_label
 
+onready var exempt_moving_bgs = [$scrolling_background/bg_layer_3, $scrolling_background/bg_layer_4]
+
 var last_index_spawned = -1
 var typed_buffer = ""
 var active_words = []
@@ -108,12 +110,18 @@ func check_words():
 
 func start_running():
 	for bg in scrolling_bg.get_children():
-		bg.start_archer()
+		if bg in exempt_moving_bgs:
+			bg.move_fast()
+		else:
+			bg.start_archer()
 		sprite.play("Run")
 
 func stop_running():
 	for bg in scrolling_bg.get_children():
-		bg.stop_archer()
+		if bg in exempt_moving_bgs:
+			bg.move_slow()
+		else:
+			bg.stop_archer()
 
 func kill_enemy():
 	enemies_killed += 1
