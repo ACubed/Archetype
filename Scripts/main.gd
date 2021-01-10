@@ -210,7 +210,6 @@ func check_words():
 				start_running()
 
 				if enemies_killed >= current_wave_size:
-					total_enemies_killed += enemies_killed
 					enemies_killed = 0
 					stop_wave()
 				break
@@ -354,7 +353,7 @@ func spawn_enemy():
 	enemy_instance.global_position = spawns[index].global_position
 
 func kill_enemy(enemy):
-	enemies_killed += 1
+	increment_kills()
 
 	if sprite.animation == "Attack":
 		sprite.set_frame(0)
@@ -375,6 +374,9 @@ func delete_enemy(enemy):
 		check_powerup(enemy.position)
 	enemy.die()
 
+func increment_kills():
+	total_enemies_killed += 1
+	enemies_killed += 1
 ############################
 # POWER UP
 ############################
@@ -444,10 +446,9 @@ func use_nuke():
 			continue
 		elif enemy.attacking or enemy.dead:
 			continue
-		enemies_killed += 1
+		increment_kills()
 		enemy.die()
 		if enemies_killed >= current_wave_size:
-			total_enemies_killed += enemies_killed
 			enemies_killed = 0
 			stop_wave()
 			break
