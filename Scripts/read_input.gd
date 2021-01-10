@@ -39,7 +39,7 @@ var active_words = []
 var alpha_regex = RegEx.new()
 
 export (int) var current_wave = 1
-var current_wave_size = 10
+var current_wave_size = 5
 var min_word_length = 3
 var max_word_length = 5 # has to be at LEAST min_word_length + 1
 var enemy_speed = .75
@@ -140,6 +140,12 @@ func stop_wave():
 	start_wave()
 
 func increase_difficulty():
+	if current_wave == 2:
+		current_wave_size += 5
+	
+	if current_wave % 2 == 0:
+		current_wave_size += 1
+		
 	if current_wave % 3 == 0:
 		enemy_speed += 0.15
 		if 1.5 < spawn_rate_max:
@@ -152,9 +158,6 @@ func increase_difficulty():
 			min_word_length += 1
 		if spawn_rate_min - 0.25 > 0.25:
 			spawn_rate_min -= 0.25
-
-	if current_wave % 10 == 0:
-		current_wave_size += 15
 
 func check_words():
 	if not started:
