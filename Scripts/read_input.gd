@@ -39,8 +39,13 @@ var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 0.25
 var spawn_rate_max = 4.0 
+<<<<<<< HEAD
 var game_over = false
 var started = false
+=======
+var prev_enemy = null
+
+>>>>>>> Fix multiple enemy attack glitch
 
 func _ready() -> void:
 	randomize()
@@ -133,14 +138,25 @@ func check_words():
 		for enemy in enemies.get_children():
 			var prompt = enemy.get_prompt()
 			if prompt == typed_buffer:
-				kill_enemy()
-				yield(sprite, "animation_finished")
-				start_running()
-
-				# actually kill the enemy now
-				enemy.queue_free()
+				# clear buffer
 				typed_buffer = ""
 				buffer_label.text = typed_buffer
+				stop_running()
+				kill_enemy(enemy)
+				yield(sprite, "animation_finished")
+				
+				# actually kill the enemy now
+				if prev_enemy != null:
+					prev_enemy.queue_free()
+				if enemy != null:
+					enemy.queue_free()
+				
+				start_running()
+				
+				if enemies_killed >= current_wave_size:
+					stop_wave()
+					total_enemies_killed += enemies_killed
+					enemies_killed = 0
 				break
 
 func start_running():
@@ -167,22 +183,19 @@ func stop_running():
 	for enemy in enemies.get_children():
 		enemy.set_speed(enemy.get_speed() + 0.22)
 
-func kill_enemy():
+func kill_enemy(enemy):
 	enemies_killed += 1
 	
 	if enemies_killed == 1:
 		audio_enable("audio_bass_1")
 	
-	stop_running()
 	if sprite.animation == "Attack":
-		sprite.stop()
 		sprite.set_frame(0)
+		if prev_enemy != null:
+			prev_enemy.queue_free()
+
 	sprite.play("Attack")
-	
-	if enemies_killed >= current_wave_size:
-		stop_wave()
-		total_enemies_killed += enemies_killed
-		enemies_killed = 0
+	prev_enemy = enemy
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_pressed():
