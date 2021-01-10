@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bells_magic_heal.wav-924ba3bdc5f4a75db09d8555c56d68dc.sample"
+
+[deps]
+
+source_file="res://SoundEffects/bells_magic_heal.wav"
+dest_files=[ "res://.import/bells_magic_heal.wav-924ba3bdc5f4a75db09d8555c56d68dc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

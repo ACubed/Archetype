@@ -759,6 +759,12 @@ volume_db = 1.0
 pitch_scale = 1.07
 bus = "Sound Effects"
 
+[node name="bells_begin" type="AudioStreamPlayer" parent="sfx_node"]
+stream = ExtResource( 35 )
+volume_db = 1.0
+pitch_scale = 1.07
+bus = "Sound Effects"
+
 [node name="clack_down_0" type="AudioStreamPlayer" parent="sfx_node"]
 stream = ExtResource( 42 )
 volume_db = 1.0

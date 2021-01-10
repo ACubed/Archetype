@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bells_powerup_get.wav-f4b15173eb61eb6531ff2bb0f7338fb2.sample"
+
+[deps]
+
+source_file="res://SoundEffects/bells_powerup_get.wav"
+dest_files=[ "res://.import/bells_powerup_get.wav-f4b15173eb61eb6531ff2bb0f7338fb2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
