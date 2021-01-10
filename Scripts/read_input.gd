@@ -2,6 +2,9 @@ extends Node2D
 
 # max possible length of words is 8
 const MAX_LENGTH = 8
+const FULL_HP = 100
+const MEDIUM_HP = 65
+const LOW_HP = 25
 
 var Enemy = preload("res://Scenes/enemy.tscn")
 
@@ -105,14 +108,14 @@ func check_health():
 	if archer_obj.health <= 0:
 		stop_world()
 	health_bar.value = archer_obj.health
-	if health_bar.value < 25:
+	if health_bar.value < LOW_HP:
 		health_bar.set_progress_texture(red_health)
-	elif health_bar.value < 65:
+	elif health_bar.value < MEDIUM_HP:
 		health_bar.set_progress_texture(yellow_health)
 	else:
 		health_bar.set_progress_texture(green_health)
 	$hp_bar/health_label.parse_bbcode(
-		str("[center]", health_bar.value, "/100[/center]")
+		str("[center]", health_bar.value, "/" + str(FULL_HP) + "[/center]")
 	)
 	check_health_for_audio(archer_obj.health)
 
@@ -227,7 +230,7 @@ func stop_running():
 		enemy.set_speed(enemy.get_speed() + 0.22)
 
 func gain_kill_bounty():
-	if archer_obj != null && archer_obj.health < 100:
+	if archer_obj != null && archer_obj.health < FULL_HP:
 		archer_obj.health += 1
 		check_health()
 
@@ -296,14 +299,17 @@ func get_audio_position():
 	return pos
 
 func audio_enable(layer_name):
-	get_node("audio_node/" + layer_name).volume_db = 1
-
-func audio_disable(layer_name):
-	get_node("audio_node/" + layer_name).volume_db = -80
+	if get_node("audio_node/" + layer_name) != null:
+		get_node("audio_node/" + layer_name).volume_db = 1
 
 # Add an audio layer name to the queue. It will start playing on the next loop
 func fade_in_audio(layer_name):
-	audio_animator.play("fadein_" + layer_name)
+	if get_node("audio_node/" + layer_name) != null:
+		audio_animator.play("fadein_" + layer_name)
+
+func fade_out_audio(layer_name):
+	if get_node("audio_node/" + layer_name) != null:
+		audio_animator.play("fadeout_" + layer_name)
 
 func play_frozen_1():
 	if !audio_tense_hp_1:
@@ -315,11 +321,26 @@ func play_frozen_2():
 		fade_in_audio("audio_string_frozen_2")
 		audio_tense_hp_2 = true
 
+func fadeout_frozen_1():
+	if audio_tense_hp_1:
+		fade_out_audio("audio_string_frozen_1")
+		audio_tense_hp_1 = false
+		
+func fadeout_frozen_2():
+	if audio_tense_hp_2:
+		fade_out_audio("audio_string_frozen_2")
+		audio_tense_hp_2 = false
+
 func check_health_for_audio(health_num):
-	if (!audio_tense_hp_1 && health_num <= 50):
+	if (!audio_tense_hp_1 && health_num < MEDIUM_HP):
 		play_frozen_1()
-	if (!audio_tense_hp_2 && health_num < 100):
+	elif audio_tense_hp_1 && health_num >= MEDIUM_HP:
+		fadeout_frozen_1()
+		
+	if (!audio_tense_hp_2 && health_num < FULL_HP):
 		play_frozen_2()
+	elif audio_tense_hp_2 && health_num >= FULL_HP:
+		fadeout_frozen_2()
 
 func audio_on_enemy_first_killed():
 	fade_in_audio("audio_string_beat_1")
