@@ -696,7 +696,11 @@ position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 96 )
 animation = "Run"
-frame = 7
+<<<<<<< HEAD
+frame = 4
+=======
+frame = 6
+>>>>>>> 7fd21dc... Fix speed discrepency
 playing = true
 
 [node name="health" type="RichTextLabel" parent="."]

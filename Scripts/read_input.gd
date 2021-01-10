@@ -110,6 +110,7 @@ func check_words():
 			break
 
 func start_running():
+	enemy_speed -= .22
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
 			bg.move_fast()
@@ -118,12 +119,12 @@ func start_running():
 	
 	for enemy in enemies.get_children():
 		enemy.set_speed(enemy.get_speed() - 0.22)
-	enemy_speed -= .22
 	
 	sprite.play("Run")
 	
 
 func stop_running():
+	enemy_speed += .22
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
 			bg.move_slow()
@@ -131,7 +132,6 @@ func stop_running():
 			bg.stop_archer()
 	for enemy in enemies.get_children():
 		enemy.set_speed(enemy.get_speed() + 0.22)
-	enemy_speed += .22
 
 func kill_enemy():
 	enemies_killed += 1
