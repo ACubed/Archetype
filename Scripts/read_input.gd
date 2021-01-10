@@ -140,6 +140,10 @@ func stop_running():
 
 func kill_enemy():
 	enemies_killed += 1
+	
+	if enemies_killed == 1:
+		audio_enable("audio_bass_1")
+	
 	stop_running()
 	sprite.play("Attack")
 	
@@ -192,21 +196,8 @@ func initialize_music():
 	for audio_node in get_node("audio_node").get_children():
 		audio_node.volume_db = -80
 		audio_node.play()
-	get_node("audio_node/audio_bass_1").volume_db = 1
-	get_node("audio_node/audio_percussion_1").volume_db = 1
-	get_node("audio_node/audio_string_beat_1").volume_db = 1
-
-func music_intensify_1():
-	for audio_node in get_node("audio_node").get_children():
-		audio_node.volume_db = -80
-		audio_node.play()
-	get_node("audio_node/audio_bass_1").volume_db = 1
-	get_node("audio_node/audio_percussion_1").volume_db = 1
-	get_node("audio_node/audio_string_beat_1").volume_db = 1
-	
-func add_frozen_strings(num):
-	get_node("audio_node/audio_string_frozen_1").volume_db = 1
-	get_node("audio_node/audio_string_frozen_2").volume_db = 1
+	audio_enable("audio_percussion_1")
+	audio_enable("audio_string_beat_1")
 	
 func audio_enable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = 1
