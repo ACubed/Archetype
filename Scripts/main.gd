@@ -239,6 +239,10 @@ func check_health():
 # WAVES & DIFFICULTY
 ############################
 func start_wave():
+	# clear powerups
+	for enemy in enemy_floor.get_children():
+		enemy.die()
+	
 	wave_complete_label.visible = false
 	current_wave_spawned_count = 0
 	spawn_timer.wait_time = 1
@@ -252,6 +256,8 @@ func stop_wave():
 	sfx_controller.play_wave_end()
 
 	for enemy in enemy_floor.get_children():
+		if enemy.powerup:
+			continue
 		enemy.die()
 	
 	# wait 5 seconds
