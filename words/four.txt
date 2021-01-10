@@ -366,7 +366,6 @@ cabs
 CACM
 cads
 cafe
-café
 cage
 cagy
 Cain
@@ -761,11 +760,9 @@ Egan
 eggs
 egos
 Eire
-Éire
 eked
 ekes
 elan
-élan
 Elba
 Elis
 elks
@@ -786,7 +783,6 @@ ENUM
 envy
 eons
 epee
-epée
 epic
 eras
 ERDA
@@ -1265,7 +1261,6 @@ ices
 icky
 icon
 idea
-idée
 idem
 ides
 idle
@@ -1369,7 +1364,6 @@ join
 joke
 jolt
 Jose
-José
 josh
 joss
 jota
@@ -2019,7 +2013,6 @@ pass
 past
 PASV
 pate
-pâté
 path
 pats
 Paul
@@ -2238,7 +2231,6 @@ Remy
 Rena
 rend
 Rene
-René
 Reno
 rent
 reps
@@ -2301,7 +2293,6 @@ rope
 ropy
 Rosa
 rose
-rosé
 Ross
 rosy
 Rota
@@ -2309,7 +2300,6 @@ ROTC
 rote
 Roth
 rots
-roué
 rout
 roux
 rove

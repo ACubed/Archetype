@@ -7,7 +7,7 @@ abase
 abash
 abate
 abbes
-abbés
+abbes
 abbey
 abbot
 Abdul
@@ -176,7 +176,7 @@ amply
 amuse
 Andes
 Andre
-André
+Andre
 anent
 angel
 anger
@@ -526,7 +526,7 @@ bland
 blank
 blare
 blase
-blasé
+blase
 blast
 blats
 blaze
@@ -800,7 +800,7 @@ cadge
 cadis
 cadre
 cafes
-cafés
+cafes
 caged
 cages
 cagey
@@ -887,7 +887,7 @@ cerci
 Ceres
 ceros
 Cesar
-César
+Cesar
 chafe
 chaff
 chain
@@ -1321,7 +1321,7 @@ debts
 debug
 debus
 debut
-début
+debut
 decaf
 decal
 decay
@@ -1619,7 +1619,7 @@ ebbed
 ebony
 eBook
 eclat
-éclat
+eclat
 edams
 Eddie
 edema
@@ -1646,7 +1646,7 @@ EIGRP
 eject
 eking
 eland
-élans
+elans
 elate
 elbow
 elder
@@ -1708,7 +1708,7 @@ entry
 envoy
 eosin
 epees
-epées
+epees
 ephod
 epics
 epoch
@@ -1746,7 +1746,7 @@ ethic
 ethos
 ethyl
 etude
-étude
+etude
 Euler
 euros
 evade
@@ -2208,7 +2208,7 @@ giver
 gives
 gizmo
 glace
-glacé
+glace
 glade
 gland
 glare
@@ -3359,7 +3359,7 @@ Mejia
 melba
 melds
 melee
-mêlée
+mêlee
 melon
 melts
 memos
@@ -3452,7 +3452,7 @@ modus
 mogul
 moils
 moire
-moiré
+moire
 moist
 molar
 molds
@@ -3749,7 +3749,7 @@ ousts
 outdo
 outer
 outgo
-outré
+outre
 ouzel
 ouzos
 ovals
@@ -3824,7 +3824,7 @@ parts
 party
 pasha
 passe
-passé
+passe
 pasta
 paste
 pasts
@@ -3833,7 +3833,7 @@ patch
 paten
 Pater
 pates
-pâtés
+pâtes
 paths
 patio
 Paton
@@ -4136,7 +4136,7 @@ pupas
 pupil
 puppy
 puree
-purée
+puree
 purer
 purge
 purls
@@ -4291,7 +4291,7 @@ remix
 renal
 rends
 Renee
-Renée
+Renee
 renew
 rents
 repay
@@ -4400,13 +4400,13 @@ ropey
 Rorer
 Rosen
 roses
-rosés
+roses
 rosin
 Rossi
 rotes
 ROTFL
 rotor
-roués
+roues
 rouge
 rough
 round
@@ -4425,7 +4425,7 @@ rower
 royal
 Royce
 Ruben
-Rubén
+Ruben
 rubes
 Rubin
 ruble
@@ -4517,7 +4517,7 @@ Saudi
 Sault
 sauna
 saute
-sauté
+saute
 saved
 saver
 saves

@@ -1,7 +1,7 @@
 extends Node2D
 
 # max possible length of words is 6
-const MAX_LENGTH = 6
+const MAX_LENGTH = 8
 
 var Enemy = preload("res://Scenes/enemy.tscn")
 
@@ -33,11 +33,11 @@ var alpha_regex = RegEx.new()
 export (int) var current_wave = 1
 var current_wave_size = 10
 var min_word_length = 3
-var max_word_length = 4 # has to be at LEAST min_word_length + 1
+var max_word_length = 5 # has to be at LEAST min_word_length + 1
 var enemy_speed = .75
 var total_enemies_killed = 0
 var enemies_killed = 0
-var spawn_rate_min = 0.25
+var spawn_rate_min = 1.25
 var spawn_rate_max = 4.0 
 var game_over = false
 var started = false
@@ -110,7 +110,7 @@ func stop_wave():
 
 func increase_difficulty():
 	if current_wave % 3 == 0:
-		enemy_speed += 0.25
+		enemy_speed += 0.15
 		if 1.5 < spawn_rate_max:
 			spawn_rate_max -= .5
 		if max_word_length < MAX_LENGTH + 1:
@@ -119,6 +119,8 @@ func increase_difficulty():
 	if current_wave % 6 == 0: 
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
+		if spawn_rate_min - 0.25 > 0.25:
+			spawn_rate_min -= 0.25
 	
 	if current_wave % 10 == 0:
 		current_wave_size += 15
