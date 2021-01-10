@@ -5,6 +5,7 @@ const MAX_ARCHER_ATTACK_SFX_INDEX = 2
 
 const RAND_MIN_PITCH = 0.92
 const RAND_MAX_PITCH = 1.11
+const SFX_VOLUME_DB = -7.0
 
 onready var current_enemy_death_index = 0
 onready var current_archer_attack_index = 0
@@ -33,6 +34,7 @@ func run_stream(stream):
 	stream.stop()
 	randomize()
 	stream.pitch_scale = rand_range(RAND_MIN_PITCH, RAND_MAX_PITCH)
+	stream.volume_db = SFX_VOLUME_DB
 	stream.play()
 
 func toggle_sound_fx():

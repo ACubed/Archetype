@@ -7,9 +7,9 @@ const HIGH_HP = 91
 const MEDIUM_HP = 65
 const LOW_HP = 25
 const ENEMY_RANGE = 100
-const MAX_VOLUME = 1.0
-const MIN_VOLUME = -50.0
-const DIMINISHED_VOLUME = -5.0
+const MAX_VOLUME = -7.0
+const MIN_VOLUME = -40.0
+const DIMINISHED_VOLUME = -10.0
 
 # preload scripts
 var Enemy = preload("res://Scenes/enemy.tscn")
@@ -421,10 +421,10 @@ func audio_on_wave_start():
 		fade_in_audio("audio_percussion_3", 180)
 		fade_in_audio("audio_percussion_4", 180)
 
-func fade_in_audio(audio_name, duration = 90):
+func fade_in_audio(audio_name, duration = 120):
 	add_slide_audio(audio_name, MAX_VOLUME, duration)
 	
-func fade_out_audio(audio_name, duration = 90):
+func fade_out_audio(audio_name, duration = 120):
 	add_slide_audio(audio_name, MIN_VOLUME, duration)
 
 func play_gameover_music():
@@ -435,7 +435,7 @@ func play_gameover_music():
 	stream.play()
 
 # Slide the volume of a specified track layer over the given duration.
-func add_slide_audio(audio_name, dest_volume, duration = 90):
+func add_slide_audio(audio_name, dest_volume, duration = 120):
 	var stream = get_node("audio_node/" + audio_name)
 	
 	if dest_volume > MAX_VOLUME:
