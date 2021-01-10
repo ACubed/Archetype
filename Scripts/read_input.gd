@@ -69,7 +69,9 @@ func start_game():
 func stop_world():
 	spawn_timer.stop()
 	for enemy in enemies.get_children():
-		enemy.queue_free()
+		if enemy == null:
+			continue
+		enemy.die()
 	sprite.play("Death")
 	exempt_moving_bgs = []
 	stop_running()
@@ -83,6 +85,8 @@ func stop_game():
 func _process(delta):
 	if started and not game_over:
 		for enemy in enemies.get_children():
+			if enemy == null:
+				continue
 			if abs(enemy.position.x - archer_position) <= enemy.offset:
 				if not enemy.attacking:
 					enemy.attack()
@@ -155,6 +159,8 @@ func check_words():
 			get_tree().reload_current_scene()
 	else:
 		for enemy in enemies.get_children():
+			if enemy == null:
+				continue
 			var prompt = enemy.get_prompt()
 			if prompt == typed_buffer:
 				# clear buffer
@@ -187,6 +193,8 @@ func start_running():
 			bg.start_archer()
 	
 	for enemy in enemies.get_children():
+		if enemy == null:
+			continue
 		enemy.set_speed(enemy.get_speed() - 0.22)
 	
 	sprite.play("Run")
@@ -200,6 +208,8 @@ func stop_running():
 		else:
 			bg.stop_archer()
 	for enemy in enemies.get_children():
+		if enemy == null:
+			continue
 		enemy.set_speed(enemy.get_speed() + 0.22)
 
 func kill_enemy(enemy):

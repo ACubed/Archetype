@@ -69,7 +69,7 @@ func attack():
 
 func die():
 	dead = true
-	speed = 0
+	speed = -0.22
 	prompt.parse_bbcode("")
 	sprite.play("Death")
 	yield(sprite, "animation_finished")

@@ -728,7 +728,7 @@ position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 96 )
 animation = "Idle"
-frame = 1
+frame = 3
 playing = true
 
 [node name="buffer" type="RichTextLabel" parent="."]
