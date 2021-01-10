@@ -205,9 +205,9 @@ func check_health():
 ############################
 func start_wave():
 	print("Starting wave ", current_wave)
+	current_wave_spawned_count = 0
 	spawn_timer.start()
 	round_counter.parse_bbcode("ROUND %d" % current_wave)
-	current_wave_spawned_count = 0
 	audio_on_wave_start()
 
 func stop_wave():
