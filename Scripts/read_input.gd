@@ -20,6 +20,8 @@ onready var health_label = $health as RichTextLabel
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
 onready var round_counter = $round_label
+onready var start_label = $start
+onready var game_over_label = $game_over
 
 onready var exempt_moving_bgs = [$scrolling_background/bg_layer_3, $scrolling_background/bg_layer_4]
 
@@ -37,28 +39,46 @@ var total_enemies_killed = 0
 var enemies_killed = 0
 var spawn_rate_min = 0.25
 var spawn_rate_max = 4.0 
-
+var game_over = false
+var started = false
 
 func _ready() -> void:
 	randomize()
 	alpha_regex.compile("[a-z]")
+
+func start_game():
+	start_label.visible = false
+	game_over_label.visible = false
+	typed_buffer = ""
+	buffer_label.text = ""
 	spawn_enemy()
 	start_wave()
 	archer_container.add_child(archer_obj)
 	health_label.text = "Health: %d" % archer_obj.health
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
+	started = true
+
+func stop_world():
+	stop_game()
+
+func stop_game():
+	game_over = true
+	game_over_label.visible = true
 
 func _process(delta):
-	for enemy in enemies.get_children():
-		if abs(enemy.position.x - archer_position) <= enemy.offset:
-			if not enemy.attacking:
-				enemy.attack()
-				#yield(enemy.sprite, "animation_finished")
-				archer_obj.take_hit(enemy.hit_points)
-				if archer_obj.health <= 0:
-					sprite.play("Death")
-				health_label.text = "Health: %d" % archer_obj.health
+	if started and not game_over:
+		for enemy in enemies.get_children():
+			if abs(enemy.position.x - archer_position) <= enemy.offset:
+				if not enemy.attacking:
+					enemy.attack()
+					yield(enemy.sprite, "animation_finished")
+					archer_obj.take_hit(enemy.hit_points)
+					if archer_obj.health <= 0:
+						stop_world()
+						sprite.play("Death")
+						
+					health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
 	print("Starting wave ", current_wave)
@@ -103,19 +123,25 @@ func increase_difficulty():
 		current_wave_size += 15
 
 func check_words():
-	for enemy in enemies.get_children():
-		var prompt = enemy.get_prompt()
-		if prompt == typed_buffer:
-			# clear buffer
-			typed_buffer = ""
-			buffer_label.text = typed_buffer
-			kill_enemy()
-			yield(sprite, "animation_finished")
-			start_running()
+	if not started:
+		if typed_buffer == "start":
+			start_game()
+	elif game_over:
+		if typed_buffer == "restart":
+			start_game()
+	else:
+		for enemy in enemies.get_children():
+			var prompt = enemy.get_prompt()
+			if prompt == typed_buffer:
+				kill_enemy()
+				yield(sprite, "animation_finished")
+				start_running()
 
-			# actually kill the enemy now
-			enemy.queue_free()
-			break
+				# actually kill the enemy now
+				enemy.queue_free()
+				typed_buffer = ""
+				buffer_label.text = typed_buffer
+				break
 
 func start_running():
 	enemy_speed -= .22
@@ -210,4 +236,3 @@ func audio_enable(layer_name):
 	
 func audio_disable(layer_name):
 	get_node("audio_node/" + layer_name).volume_db = -80
-
