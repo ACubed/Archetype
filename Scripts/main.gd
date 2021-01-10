@@ -376,26 +376,26 @@ func kill_enemy(enemy):
 
 func delete_enemy(enemy):
 	if last_powerup_round != current_wave:
-		check_powerup(enemy)
+		check_powerup(enemy.position)
 	enemy.die()
 
 ############################
 # POWER UP
 ############################
-func check_powerup(enemy):
+func check_powerup(position):
 	randomize()
 	var rand_perc = randf()
 	if rand_perc <= POWER_UP_SPAWN_RATE:
 		last_powerup_round = current_wave
-		spawn_powerup(enemy)
+		spawn_powerup(position)
 
-func spawn_powerup(enemy):
+func spawn_powerup(position):
 	randomize()
 	var index = randi() % powerups.size()
 	print("Spawning powerup ", powerups[index])
 	var powerup_instance = powerup.instance()
-	powerup_instance.position.x = enemy.position.x
-	powerup_instance.position.y = enemy.position.y
+	powerup_instance.position.x = position.x
+	powerup_instance.position.y = position.y
 	powerup_instance.get_node("sprite").play(powerups[index])
 	powerup_instance.get_node("label").parse_bbcode(str("[center]", powerups[index], "[/center]"))
 	enemy_floor.add_child(powerup_instance)
