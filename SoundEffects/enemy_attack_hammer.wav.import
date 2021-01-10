@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/enemy_attack_hammer.wav-4c40e5968f0ff9a59e05e8b66933c68e.sample"
+
+[deps]
+
+source_file="res://SoundEffects/enemy_attack_hammer.wav"
+dest_files=[ "res://.import/enemy_attack_hammer.wav-4c40e5968f0ff9a59e05e8b66933c68e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

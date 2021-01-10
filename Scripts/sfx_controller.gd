@@ -44,6 +44,19 @@ func play_key_sound():
 	current_clack_index += 1
 	if current_clack_index > MAX_CLACK_SFX_INDEX:
 		current_clack_index = 0
+
+func play_enemy_attack_sound(anim_index):
+	var stream = null
+	if anim_index == 0:
+		stream = get_node("enemy_attack_stab")
+	if anim_index == 1:
+		stream = get_node("enemy_attack_hammer")
+	if anim_index == 2:
+		stream = get_node("enemy_attack_lift")
+		
+	if stream != null:
+		run_stream(stream)
+		
 	
 func rand_volume(range_start, range_end):
 	randomize()

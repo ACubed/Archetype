@@ -91,16 +91,15 @@ func archer_stopped():
 func archer_running():
 	archer_moving = true
 
-func play_random_attack_animation():
-	randomize()
-	var rand_index = randi() % 3
-	sprite.play("Attack" + str(rand_index))
-
 func attack():
 	if dying or dead:
 		return
-	attacking = true
-	play_random_attack_animation()
+	if !attacking:
+		randomize()
+		var rand_index = randi() % 3
+		sprite.play("Attack" + str(rand_index))
+		sfx_controller.play_enemy_attack_sound(rand_index)
+		attacking = true
 	yield(sprite, "animation_finished")
 	successfully_attacked = true
 	attacking = false
