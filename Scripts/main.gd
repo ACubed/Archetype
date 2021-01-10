@@ -52,7 +52,7 @@ var max_word_length = 5 # has to be at LEAST min_word_length + 1
 var enemy_speed = 1.1
 var total_enemies_killed = 0
 var enemies_killed = 0
-var spawn_rate_min = 1.25
+var spawn_rate_min = 1.5
 var spawn_rate_max = 4.0
 var game_over = false
 var started = false
@@ -177,9 +177,9 @@ func check_words():
 				start_running()
 
 				if enemies_killed >= current_wave_size:
-					stop_wave()
 					total_enemies_killed += enemies_killed
 					enemies_killed = 0
+					stop_wave()
 				break
 
 # check players health to determine when he dies
@@ -241,7 +241,7 @@ func increase_difficulty():
 		
 	if current_wave % 3 == 0:
 		enemy_speed += 0.15
-		if 1.5 < spawn_rate_max:
+		if spawn_rate_max + .5 > 1.5 :
 			spawn_rate_max -= .5
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
@@ -249,7 +249,7 @@ func increase_difficulty():
 	if current_wave % 6 == 0:
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
-		if spawn_rate_min - 0.25 > 0.25:
+		if spawn_rate_min - 0.25 > 0.5:
 			spawn_rate_min -= 0.25
 
 func gain_kill_bounty():
