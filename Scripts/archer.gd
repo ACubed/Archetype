@@ -8,5 +8,4 @@ func _ready():
 	pass
 	
 func take_hit(hit_points: int):
-		health -= hit_points
-
+	health -= hit_points

@@ -46,6 +46,7 @@ func _ready() -> void:
 	start_wave()
 	archer_container.add_child(archer_obj)
 	health_label.text = "Health: %d" % archer_obj.health
+	initialize_music()
 
 func _process(delta):
 	for enemy in enemies.get_children():
@@ -53,6 +54,8 @@ func _process(delta):
 			enemy.attack()
 			yield(enemy.sprite, "animation_finished")
 			archer_obj.take_hit(enemy.hit_points)
+			if archer_obj.health <= 0:
+				sprite.play("death")
 			health_label.text = "Health: %d" % archer_obj.health
 	
 func start_wave():
@@ -184,3 +187,12 @@ func _on_archer_sprite_animation_finished():
 
 func set_center_tags(string: String):
 	return "[center]" + string + "[/center]"
+
+func initialize_music():
+	for audio_node in get_node("audio_node").get_children():
+		audio_node.volume_db = -80
+		audio_node.play()
+	get_node("audio_node/audio_bass_1").volume_db = 1
+	get_node("audio_node/audio_percussion_1").volume_db = 1
+	get_node("audio_node/audio_string_beat_1").volume_db = 1
+
