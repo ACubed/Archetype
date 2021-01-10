@@ -117,7 +117,7 @@ func start_running():
 			bg.start_archer()
 	
 	for enemy in enemies.get_children():
-		enemy.set_speed(enemy_speed)
+		enemy.set_speed(enemy.get_speed() - 0.22)
 	
 	sprite.play("Run")
 	
@@ -130,7 +130,7 @@ func stop_running():
 		else:
 			bg.stop_archer()
 	for enemy in enemies.get_children():
-		enemy.set_speed(enemy_speed)
+		enemy.set_speed(enemy.get_speed() + 0.22)
 
 func kill_enemy():
 	enemies_killed += 1
