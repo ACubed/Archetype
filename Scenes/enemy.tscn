@@ -877,10 +877,10 @@ speed = 0.5
 [node name="target" type="RichTextLabel" parent="."]
 anchor_top = 0.00496447
 anchor_bottom = 0.00496447
-margin_left = -49.0704
-margin_top = -77.8198
-margin_right = 53.9296
-margin_bottom = -62.8198
+margin_left = -44.0261
+margin_top = -33.197
+margin_right = 58.9739
+margin_bottom = -18.197
 bbcode_text = "wwwwwwwwww"
 text = "wwwwwwwwww"
 scroll_active = false
@@ -889,7 +889,6 @@ __meta__ = {
 }
 
 [node name="enemy_sprite" type="AnimatedSprite" parent="."]
-position = Vector2( -0.776062, -45.0108 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 165 )
 animation = "Attack2"
