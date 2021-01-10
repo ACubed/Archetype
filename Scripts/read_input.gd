@@ -53,6 +53,8 @@ func _ready() -> void:
 	alpha_regex.compile("[a-z]")
 
 func start_game():
+	started = true
+	game_over = false
 	start_label.visible = false
 	game_over_label.visible = false
 	typed_buffer = ""
@@ -63,8 +65,7 @@ func start_game():
 	archer_container.add_child(archer_obj)
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
-	started = true
-	game_over = false
+
 
 func stop_world():
 	spawn_timer.stop()
