@@ -12,15 +12,15 @@ onready var file_manager = preload("file_manager.gd").new()
 onready var words_dict = file_manager.dict
 var min_len = 3
 var max_len = 4
-var hit_points = 10
+var damage = 10
 var offset = 40
 var archer_x = 200
+var successfully_attacked = false
 var attacking = false
 var dead = false
 var dying = false
 var initial_speed = 0
 var archer_moving = true
-const SCROLL_SPEED_BONUS = -0.54
 
 func init(d: int, s: float, min_word_length: int, max_word_length: int ) -> void:
 	randomize()
@@ -39,11 +39,9 @@ func set_random_word():
 
 func _physics_process(delta: float) -> void:
 	if attacking or dying:
-		global_position.x += SCROLL_SPEED_BONUS
+		pass
 	elif not abs(global_position.x - archer_x) <= offset:
-		global_position.x += speed
-		if archer_moving:
-			global_position.x += SCROLL_SPEED_BONUS
+		position.x += speed
 
 func get_prompt() -> String:
 	return prompt_text
@@ -95,16 +93,18 @@ func attack():
 	attacking = true
 	sprite.play("Attack")
 	yield(sprite, "animation_finished")
+	successfully_attacked = true
 	attacking = false
+	queue_free()
 
 func die():
 	if attacking:
-		return
+		attacking = false
 	dying = true
-	speed = SCROLL_SPEED_BONUS
 	prompt.parse_bbcode("")
 	sprite.play("Death")
 	yield(sprite, "animation_finished")
+	successfully_attacked = false
 	dead = true
 	dying = false
 	queue_free()

@@ -27,6 +27,7 @@ onready var sprite = $archer/archer_sprite as AnimatedSprite
 onready var health_bar = $hp_bar
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
+onready var enemy_floor = $scrolling_background/enemy_floor
 onready var round_counter = $round_label
 onready var start_label = $start
 onready var game_over_label = $game_over
@@ -49,6 +50,7 @@ var alpha_regex = RegEx.new()
 
 export (int) var current_wave = 1
 var current_wave_size = 5
+var current_wave_spawned_count = 0
 var min_word_length = 3
 var max_word_length = 5 # has to be at LEAST min_word_length + 1
 var enemy_speed = 1.1
@@ -59,6 +61,7 @@ var spawn_rate_max = 4.0
 var game_over = false
 var started = false
 var prev_enemy = null
+var archer_running = false
 
 func _ready() -> void:
 	randomize()
@@ -80,7 +83,7 @@ func start_game():
 
 func stop_world():
 	spawn_timer.stop()
-	for enemy in enemies.get_children():
+	for enemy in enemy_floor.get_children():
 		if enemy == null:
 			continue
 		enemy.die()
@@ -97,16 +100,16 @@ func stop_game():
 func _process(delta):
 	process_sliding_audio()
 	if started and not game_over:
-		for enemy in enemies.get_children():
+		for enemy in enemy_floor.get_children():
 			if enemy == null or enemy.dead:
 				continue
-			if abs(enemy.position.x - archer_position + ENEMY_RANGE) <= enemy.offset:
+			if abs(enemy.global_position.x - archer_position + ENEMY_RANGE) <= enemy.offset:
 				if not enemy.attacking and not enemy.dead:
 					enemy.attack()
 					yield(enemy.sprite, "animation_finished")
-					archer_obj.take_hit(enemy.hit_points)
-					enemy.queue_free()
-					check_health()
+					if (enemy.successfully_attacked && !enemy.dying && !enemy.dead):
+						archer_obj.take_hit(enemy.damage)
+						check_health()
 
 func check_health():
 	if archer_obj == null:
@@ -129,6 +132,7 @@ func start_wave():
 	print("Starting wave ", current_wave)
 	spawn_timer.start()
 	round_counter.parse_bbcode("ROUND %d" % current_wave)
+	current_wave_spawned_count = 0
 	audio_on_wave_start()
 
 func stop_wave():
@@ -181,8 +185,8 @@ func check_words():
 		if typed_buffer == "restart":
 			get_tree().reload_current_scene()
 	else:
-		for enemy in enemies.get_children():
-			if enemy == null or enemy.dead or enemy.attacking:
+		for enemy in enemy_floor.get_children():
+			if enemy == null or enemy.dead or enemy.dying:
 				continue
 			var prompt = enemy.get_prompt()
 			if prompt == typed_buffer:
@@ -208,27 +212,29 @@ func check_words():
 				break
 
 func start_running():
+	archer_running = true
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
 			bg.move_fast()
 		else:
-			bg.start_archer()
+			bg.start_scrolling()
 
-	for enemy in enemies.get_children():
+	for enemy in enemy_floor.get_children():
 		if enemy == null or enemy.dead or enemy.attacking:
 			continue
 		enemy.archer_running()
 
 	sprite.play("Run")
 
-
 func stop_running():
+	archer_running = false
 	for bg in scrolling_bg.get_children():
 		if bg in exempt_moving_bgs:
+			# The clouds continue moving (slower than usual) when archer stops
 			bg.move_slow()
 		else:
-			bg.stop_archer()
-	for enemy in enemies.get_children():
+			bg.halt_scrolling()
+	for enemy in enemy_floor.get_children():
 		if enemy == null:
 			continue
 		enemy.archer_stopped()
@@ -276,6 +282,11 @@ func _on_spawn_timer_timeout() -> void:
 	spawn_timer.wait_time = rand_range(spawn_rate_min, spawn_rate_max)
 
 func spawn_enemy():
+	# Don't spawn any more enemies if the max have been spawned this wave.
+	if current_wave_spawned_count >= current_wave_size:
+		return
+	current_wave_spawned_count += 1
+	
 	var enemy_instance = Enemy.instance()
 	var randInt = randi()
 	var spawns = r_spawn_points.get_children()
@@ -285,7 +296,7 @@ func spawn_enemy():
 		index = (randInt + 1) % spawns.size()
 
 	enemy_instance.init(direction, enemy_speed, min_word_length, max_word_length)
-	enemies.add_child(enemy_instance)
+	enemy_floor.add_child(enemy_instance)
 	enemy_instance.global_position = spawns[index].global_position
 
 func _on_archer_sprite_animation_finished():
