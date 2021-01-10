@@ -598,10 +598,10 @@ frames = SubResource( 52 )
 animation = "Attack"
 
 [node name="buffer" type="RichTextLabel" parent="."]
-margin_left = 387.272
-margin_top = 505.938
-margin_right = 472.272
-margin_bottom = 522.938
+margin_left = 425.0
+margin_top = 500.0
+margin_right = 510.0
+margin_bottom = 517.0
 rect_scale = Vector2( 1.5, 1.5 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -660,10 +660,10 @@ __meta__ = {
 }
 
 [node name="start" type="RichTextLabel" parent="."]
-margin_left = 350.993
-margin_top = 206.123
-margin_right = 467.993
-margin_bottom = 222.123
+margin_left = 380.0
+margin_top = 200.0
+margin_right = 497.0
+margin_bottom = 216.0
 rect_scale = Vector2( 2, 2 )
 text = "type 'start' to play"
 __meta__ = {
