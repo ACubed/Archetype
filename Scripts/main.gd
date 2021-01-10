@@ -244,10 +244,12 @@ func start_wave():
 	
 	wave_complete_label.visible = false
 	current_wave_spawned_count = 0
+	$enemies_remaining.parse_bbcode(str("ENEMIES REMAINING: ", current_wave_size - enemies_killed))
 	spawn_timer.wait_time = 1
 	spawn_timer.start()
 	wave_counter.parse_bbcode("WAVE %d" % current_wave)
 	audio_on_wave_start()
+	
 
 func stop_wave():
 	wave_complete_label.visible = true
