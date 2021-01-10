@@ -206,6 +206,7 @@ func check_health():
 func start_wave():
 	print("Starting wave ", current_wave)
 	current_wave_spawned_count = 0
+	spawn_timer.wait_time = 1
 	spawn_timer.start()
 	round_counter.parse_bbcode("ROUND %d" % current_wave)
 	audio_on_wave_start()
@@ -241,7 +242,7 @@ func increase_difficulty():
 		
 	if current_wave % 3 == 0:
 		enemy_speed += 0.15
-		if spawn_rate_max + .5 > 1.5 :
+		if spawn_rate_max > 2.0 :
 			spawn_rate_max -= .5
 		if max_word_length < MAX_LENGTH + 1:
 			max_word_length += 1
@@ -249,7 +250,7 @@ func increase_difficulty():
 	if current_wave % 6 == 0:
 		if min_word_length < max_word_length - 1:
 			min_word_length += 1
-		if spawn_rate_min - 0.25 > 0.5:
+		if spawn_rate_min > 0.75:
 			spawn_rate_min -= 0.25
 
 func gain_kill_bounty():
@@ -296,7 +297,9 @@ func stop_running():
 
 func _on_spawn_timer_timeout() -> void:
 	spawn_enemy()
+	spawn_timer.stop()
 	spawn_timer.wait_time = rand_range(spawn_rate_min, spawn_rate_max)
+	spawn_timer.start()
 
 func spawn_enemy():
 	# Don't spawn any more enemies if the max have been spawned this wave.
