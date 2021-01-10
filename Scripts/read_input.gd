@@ -16,7 +16,7 @@ onready var spawn_timer = $spawn_timer
 onready var hit_timer = $hit_timer
 onready var buffer_label = $buffer as RichTextLabel
 onready var sprite = $archer/archer_sprite as AnimatedSprite
-onready var health_label = $health as RichTextLabel
+onready var health_bar = $hp_bar
 onready var archer = $archer as Node2D
 onready var scrolling_bg = $scrolling_background
 onready var round_counter = $round_label
@@ -24,6 +24,11 @@ onready var start_label = $start
 onready var game_over_label = $game_over
 
 onready var exempt_moving_bgs = [$scrolling_background/bg_layer_3, $scrolling_background/bg_layer_4]
+
+# health textures
+var green_health = preload("res://Images/barHorizontal_green.png")
+var yellow_health = preload("res://Images/barHorizontal_yellow.png")
+var red_health = preload("res://Images/barHorizontal_red.png")
 
 var last_index_spawned = -1
 var typed_buffer = ""
@@ -55,7 +60,6 @@ func start_game():
 	spawn_enemy()
 	start_wave()
 	archer_container.add_child(archer_obj)
-	health_label.text = "Health: %d" % archer_obj.health
 	get_node("archer/archer_sprite").playing = true
 	initialize_music()
 	started = true
@@ -82,13 +86,21 @@ func _process(delta):
 					archer_obj.take_hit(enemy.hit_points)
 					if archer_obj.health <= 0:
 						stop_world()
-						
-					health_label.text = "Health: %d" % archer_obj.health
+					health_bar.value = archer_obj.health
+					if health_bar.value < 25:
+						health_bar.set_progress_texture(red_health)
+					elif health_bar.value < 65:
+						health_bar.set_progress_texture(yellow_health)
+					else:
+						health_bar.set_progress_texture(green_health)
+					$hp_bar/health_label.parse_bbcode(
+						"[center]" + health_bar.value + "/100[/center]"
+					)
 	
 func start_wave():
 	print("Starting wave ", current_wave)
 	spawn_timer.start()
-	round_counter.parse_bbcode(set_center_tags("Round %d" % current_wave))
+	round_counter.parse_bbcode("ROUND %d" % current_wave)
 
 func stop_wave():
 	print("wave ", current_wave, " has been cleared!")
@@ -235,9 +247,6 @@ func spawn_enemy():
 
 func _on_archer_sprite_animation_finished():
 	pass
-
-func set_center_tags(string: String):
-	return "[center]" + string + "[/center]"
 
 func initialize_music():
 	for audio_node in get_node("audio_node").get_children():

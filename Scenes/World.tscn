@@ -1,4 +1,4 @@
-[gd_scene load_steps=129 format=2]
+[gd_scene load_steps=130 format=2]
 
 [ext_resource path="res://Scripts/scroll_background.gd" type="Script" id=1]
 [ext_resource path="res://Backgrounds/mtn_sky_bg.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://AudioLayer/piano_1.ogg" type="AudioStream" id=30]
 [ext_resource path="res://AudioLayer/string_beat_2.ogg" type="AudioStream" id=31]
 [ext_resource path="res://AudioLayer/violin_1.ogg" type="AudioStream" id=32]
+[ext_resource path="res://Images/barHorizontal_green.png" type="Texture" id=33]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -547,7 +548,35 @@ animations = [ {
 } ]
 
 [node name="World" type="Node2D"]
+position = Vector2( 0, -0.454407 )
 script = ExtResource( 4 )
+
+[node name="hp_bar" type="TextureProgress" parent="."]
+margin_left = 17.0
+margin_top = 498.0
+margin_right = 232.0
+margin_bottom = 527.0
+value = 100.0
+texture_progress = ExtResource( 33 )
+nine_patch_stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="health_label" type="RichTextLabel" parent="hp_bar"]
+margin_left = 60.2526
+margin_top = 6.68744
+margin_right = 136.253
+margin_bottom = 23.6874
+rect_scale = Vector2( 1.2, 1.2 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+bbcode_text = "[center]100/100[/center]"
+text = "100/100"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="camera" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -667,6 +696,7 @@ script = ExtResource( 1 )
 scroll_speed = 0.22
 
 [node name="trees_bg" type="Sprite" parent="scrolling_background/bg_layer_7"]
+position = Vector2( -1.81769, -0.908875 )
 texture = ExtResource( 9 )
 centered = false
 
@@ -696,42 +726,38 @@ position = Vector2( 420.127, 419.627 )
 scale = Vector2( 2, 2 )
 frames = SubResource( 96 )
 animation = "Run"
+frame = 2
 playing = true
 
-[node name="health" type="RichTextLabel" parent="."]
-margin_left = 849.0
-margin_top = 194.0
-margin_right = 1001.0
-margin_bottom = 233.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="buffer" type="RichTextLabel" parent="."]
-margin_left = 385.0
-margin_top = 440.5
-margin_right = 470.0
-margin_bottom = 457.5
+margin_left = 387.272
+margin_top = 505.938
+margin_right = 472.272
+margin_bottom = 522.938
+rect_scale = Vector2( 1.5, 1.5 )
+custom_colors/default_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="round_label" type="RichTextLabel" parent="."]
-margin_left = 11.0
-margin_top = 6.0
-margin_right = 179.0
-margin_bottom = 42.0
-text = "ROUND 1
-"
+margin_left = 18.28
+margin_top = 465.363
+margin_right = 107.28
+margin_bottom = 482.363
+rect_scale = Vector2( 2, 2 )
+text = "ROUND 1"
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="start" type="RichTextLabel" parent="."]
-margin_left = 382.0
-margin_top = 163.0
-margin_right = 547.0
-margin_bottom = 194.0
+margin_left = 350.993
+margin_top = 206.123
+margin_right = 467.993
+margin_bottom = 222.123
 rect_scale = Vector2( 2, 2 )
 text = "type 'start' to play"
 __meta__ = {
