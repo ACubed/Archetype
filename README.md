@@ -41,4 +41,4 @@ Created for the University of Manitoba CSSAJam 2021.
 
 Music by Andy Tan.
 
-Coding by Arvind Mann, Caden Chabot, and Andy Tan.
+Developed by Arvind Maan, Caden Chabot, and Andy Tan.
