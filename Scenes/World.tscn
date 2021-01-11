@@ -950,8 +950,10 @@ margin_left = 902.656
 margin_top = 5.00452
 margin_right = 952.656
 margin_bottom = 55.0045
+focus_mode = 0
 toggle_mode = true
 shortcut_in_tooltip = false
+enabled_focus_mode = 0
 texture_normal = ExtResource( 39 )
 texture_pressed = ExtResource( 38 )
 expand = true
@@ -965,7 +967,9 @@ margin_left = 856.032
 margin_top = 5.33484
 margin_right = 906.032
 margin_bottom = 55.3348
+focus_mode = 0
 toggle_mode = true
+enabled_focus_mode = 0
 texture_normal = ExtResource( 36 )
 texture_pressed = ExtResource( 37 )
 expand = true
@@ -980,7 +984,7 @@ visible = false
 position = Vector2( 286.932, 511.934 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 59 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="health" type="AnimatedSprite" parent="toolbar"]
@@ -988,7 +992,7 @@ visible = false
 position = Vector2( 256.883, 512.3 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 67 )
-frame = 6
+frame = 1
 playing = true
 [connection signal="timeout" from="spawn_timer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="animation_finished" from="archer/archer_sprite" to="." method="_on_archer_sprite_animation_finished"]

@@ -9,8 +9,9 @@ onready var prompt = $target as RichTextLabel
 onready var prompt_text = prompt.text
 
 onready var file_manager = preload("file_manager.gd").new()
+onready var word_manager = preload("words.gd").new()
 
-onready var words_dict = file_manager.dict
+onready var words_dict = word_manager.dict
 var min_len = 3
 var max_len = 4
 var damage = 10

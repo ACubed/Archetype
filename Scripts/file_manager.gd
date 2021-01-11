@@ -1,11 +1,11 @@
 extends Node
 
-var three_file = 'res://Words/three.txt'
-var four_file = 'res://Words/four.txt'
-var five_file = 'res://Words/five.txt'
-var six_file = 'res://Words/six.txt'
-var seven_file = 'res://Words/seven.txt'
-var eight_file = 'res://Words/eight.txt'
+var three_file = 'user://Words/three.txt'
+var four_file = 'user://Words/four.txt'
+var five_file = 'user://Words/five.txt'
+var six_file = 'user://Words/six.txt'
+var seven_file = 'user://Words/seven.txt'
+var eight_file = 'user://Words/eight.txt'
 
 var dict = {
 	3: load_file(three_file),
