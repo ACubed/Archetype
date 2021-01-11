@@ -8,7 +8,6 @@ onready var sprite = $enemy_sprite as AnimatedSprite
 onready var prompt = $target as RichTextLabel
 onready var prompt_text = prompt.text
 
-onready var file_manager = preload("file_manager.gd").new()
 onready var word_manager = preload("words.gd").new()
 
 onready var words_dict = word_manager.dict
