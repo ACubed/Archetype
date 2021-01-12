@@ -1,4 +1,4 @@
-# Typinator
+# ArcheType
 2D Sidescrolling typing game inspired by TypeKnight. Developed with Godot using GDScript.
 
 Created for the University of Manitoba CSSAJam 2021.
